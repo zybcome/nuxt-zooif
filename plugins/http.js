@@ -1,6 +1,6 @@
 import axios from 'axios'
-import Vue from 'vue'
-import { Message, Notification,MessageBox } from 'element-ui' // 这里使用了element-ui的消息提示方法，也可自行定义 
+import store from '../store'
+import { Message, Notification, MessageBox } from 'element-ui' // 这里使用了element-ui的消息提示方法，也可自行定义 
 
 import { getToken } from './auth'
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -45,9 +45,7 @@ service.interceptors.response.use(function (resp) {
         type: 'warning'
       }
       ).then(() => {
-        store.dispatch('LogOut').then(() => {
-          location.href = '/index';
-        })
+        location.href = '/login';
       }).catch(() => { });
       return resp.data
     } else if (code === 500) {

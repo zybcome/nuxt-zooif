@@ -13,7 +13,8 @@ export default {
             { name: 'viewport', content: 'initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no' },
             { name: 'Resource-type', content: "Document" },
             { hid: 'description', name: 'description', content: '' },
-            { name: 'format-detection', content: 'telephone=no' }
+            { name: 'format-detection', content: 'telephone=no' },
+            { name: 'referrer', content: 'never' }
         ],
         script: [
             { src: '/js/jquery-3.6.0.min.js', type: "text/javascript" },

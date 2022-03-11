@@ -32,46 +32,64 @@
       <div class="whois-introduce">
         <section>
           <div class="container">
-            <div class="box">
-              <input
-                type="email"
-                class="form-control"
-                id="tiktok_url"
-                placeholder="请粘贴抖音分享连接！"
-              >
+            <div style="text-align:center">
               <button
+                v-if="yulanStatus"
                 type="button"
                 class="btn btn-primary"
-                id="jiexi"
-              >解析</button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="yulan"
-                style="display: none;"
                 @click="yulan()"
               >预览</button>
               <button
+                v-if="xiazaiStatus"
                 type="button"
                 class="btn btn-primary"
-                id="xiazai"
-                style="display: none;"
                 @click="xiazai()"
               >下载</button>
-              <div class="shipin"></div>
             </div>
           </div>
         </section>
       </div>
     </div>
     <v-footer></v-footer>
+    <el-dialog
+      title="预览"
+      :visible.sync="dialogVideoStatus"
+      width="300px"
+    >
+
+      <video
+        controls="controls"
+        width="100%"
+        height="100%"
+        autoplay="autoplay"
+        volume="1"
+        id="myVideo"
+        loop="loop"
+      >
+        <source
+          id="media_src"
+          :src="videoUrl"
+          type="video/mp4"
+        />
+      </video>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogVideoStatus = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="xiazai()"
+        >下 载</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import api from "~/plugins/api";
 import VFooter from "~/components/footer";
-import { Message, Notification } from "element-ui";
+import { Message } from "element-ui";
 export default {
   components: {
     VFooter,
@@ -79,7 +97,11 @@ export default {
   data: function () {
     return {
       tiktokText: "",
-      videoUrl: ""
+      videoUrl: "",
+      // shipinStatus: false,
+      xiazaiStatus: false,
+      yulanStatus: false,
+      dialogVideoStatus: false,
     };
   },
 
@@ -89,24 +111,18 @@ export default {
 
   methods: {
     yulan() {
-      $(".shipin").append(
-        `<video controls="controls" width="100%" height="100%" autoplay="autoplay"  volume="1" id="myVideo"  loop="loop">
-    <source id="media_src" src="` +
-          videoUrl +
-          `" type="video/mp4"/>
-</video>`
-      );
+      this.dialogVideoStatus = true;
     },
     xiazai() {
-      start_download(videoUrl);
+      this.start_download(this.videoUrl);
     },
     getTiktokLink() {
       if (this.tiktokText) {
         api.getTiktok(this.tiktokText).then((res) => {
           if (res.code == 200) {
             this.videoUrl = res.videoUrl;
-            $("#yulan").show();
-            $("#xiazai").show();
+            this.xiazaiStatus = true;
+            this.yulanStatus = true;
           }
         });
       } else {
@@ -130,12 +146,13 @@ export default {
       a.click();
     },
     start_download(url) {
-      xhr = new XMLHttpRequest();
+      var that = this;
+      var xhr = new XMLHttpRequest();
       xhr.open("GET", url);
       xhr.responseType = "blob";
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-          download(xhr.response);
+          that.download(xhr.response);
         }
       };
       xhr.send(null);

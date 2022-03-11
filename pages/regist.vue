@@ -157,7 +157,7 @@
 <script>
 import api from "~/plugins/api";
 import Cookies from "js-cookie";
-import { Message, Alert } from "element-ui";
+import { Message } from "element-ui";
 
 export default {
   components: {
