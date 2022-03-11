@@ -33,12 +33,12 @@ const user = {
         Login({ commit }, userInfo) {
             return new Promise((resolve, reject) => {
                 api.login(userInfo).then(res => {
-                    if(res){
+                    if (res.code == 200) {
                         let data = res
                         setToken(data.token)
                         commit('SET_TOKEN', data.token)
                         resolve()
-                    }else{
+                    } else {
                         reject()
                     }
                 }).catch(error => {
@@ -52,18 +52,22 @@ const user = {
             return new Promise((resolve, reject) => {
                 if (getToken()) {
                     api.getInfo().then(res => {
-                        const user = res.user
-                        const avatar = user.avatar == "" ? require("~/static/img/profile.jpg") : user.avatar;
-                        if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-                            commit('SET_ROLES', res.roles)
-                            commit('SET_PERMISSIONS', res.permissions)
+                        if (res.code == 200) {
+                            const user = res.user
+                            const avatar = user.avatar == "" ? require("~/static/img/avatar.png") : user.avatar;
+                            if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+                                commit('SET_ROLES', res.roles)
+                                commit('SET_PERMISSIONS', res.permissions)
+                            } else {
+                                commit('SET_ROLES', ['ROLE_DEFAULT'])
+                            }
+                            commit('SET_NAME', user.userName)
+                            commit('SET_AVATAR', avatar)
+                            commit('SET_TOKEN', getToken())
+                            resolve(res)
                         } else {
-                            commit('SET_ROLES', ['ROLE_DEFAULT'])
+                            resolve(res)
                         }
-                        commit('SET_NAME', user.userName)
-                        commit('SET_AVATAR', avatar)
-                        commit('SET_TOKEN', getToken())
-                        resolve(res)
                     }).catch(error => {
                         reject(error)
                     })
@@ -87,12 +91,12 @@ const user = {
         // 退出系统
         LogOut({ commit, state }) {
             return new Promise((resolve, reject) => {
-                api.logout(state.token).then(() => {
+                api.logout(state.token).then((res) => {
                     commit('SET_TOKEN', '')
                     commit('SET_ROLES', [])
                     commit('SET_PERMISSIONS', [])
                     removeToken()
-                    resolve()
+                    resolve(res)
                 }).catch(error => {
                     reject(error)
                 })

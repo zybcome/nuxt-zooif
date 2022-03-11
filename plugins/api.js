@@ -9,6 +9,7 @@ export default {
   login: data => post(http+admin + '/login', data),
   getCodeImg: data => get(http+admin + '/captchaImage', data),
   getInfo: data => get(http+admin + '/getInfo', data),
+  getTiktok: data => post(http+admin + '/system/tiktok', data),
   logout: data => post(http+admin + '/logout', data),
   register: data => post(http+admin + '/register', data),
   RefreshToken: data => post(http+admin + '/refresh', data),

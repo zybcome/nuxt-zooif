@@ -8,7 +8,7 @@
           <span
             class="title-text"
             style="font-weight:bold"
-          >ZooIf</span>
+          >WDomain</span>
         </h3>
         <el-form
           ref="registerForm"
@@ -231,7 +231,10 @@ export default {
 
   computed: {},
 
-  created: function () {},
+  created: function () {
+    this.$store.dispatch("FedLogOut");
+    this.$store.dispatch("LogOut");
+  },
   mounted: function () {
     var jsencrypt = require("~/plugins/jsencrypt");
     this.encrypt = jsencrypt.encrypt;
@@ -276,6 +279,7 @@ export default {
       setTimeout(() => {
         if (mailReg.test(this.registerForm.email)) {
           api.sendEmailCode(this.registerForm.email).then((res) => {
+            console.log(res);
             if (res.code == 200) {
               Message({ message: "验证码发送成功！", type: "success" });
               this.registerForm.emailUuid = res.uuid;
@@ -288,6 +292,8 @@ export default {
                   clearInterval(setTime);
                 }
               }, 1000);
+            } else {
+              this.sendEmailBtnStatus = false;
             }
           });
         } else {
@@ -299,19 +305,27 @@ export default {
     handleRegister() {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
+          if (!this.registerForm.emailUuid) {
+            Message({ message: "请先获取邮箱验证码", type: "error" });
+            return;
+          }
           this.loading = true;
           api
             .register(this.registerForm)
             .then((res) => {
-              const username = this.registerForm.username;
-              Message({
-                message:
-                  "恭喜你，您的账号 " +
-                  username +
-                  " 注册成功！",
-                type: "success",
-              });
-              this.$router.push("/login");
+              if (res.code == 200) {
+                const username = this.registerForm.username;
+                Message({
+                  message: "恭喜你，您的账号 " + username + " 注册成功！",
+                  type: "success",
+                });
+                this.$router.replace("/login");
+              } else {
+                this.loading = false;
+                if (this.captchaOnOff) {
+                  this.getCode();
+                }
+              }
             })
             .catch(() => {
               this.loading = false;

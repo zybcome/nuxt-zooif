@@ -5,9 +5,10 @@
       <div class="login-right">
         <h3 class="title">
           <span class="title-login">欢迎登录</span> |
-          <span class="title-text" style="font-weight:bold"
-            >ZooIf</span
-          >
+          <span
+            class="title-text"
+            style="font-weight:bold"
+          >WDomain</span>
         </h3>
         <el-form
           ref="loginForm"
@@ -46,7 +47,10 @@
               />
             </el-input>
           </el-form-item>
-          <el-form-item prop="code" v-if="captchaOnOff">
+          <el-form-item
+            prop="code"
+            v-if="captchaOnOff"
+          >
             <el-input
               v-model="loginForm.code"
               auto-complete="off"
@@ -62,18 +66,27 @@
               />
             </el-input>
             <div class="login-code">
-              <img :src="codeUrl" @click="getCode" class="login-code-img" />
+              <img
+                :src="codeUrl"
+                @click="getCode"
+                class="login-code-img"
+              />
             </div>
           </el-form-item>
           <el-form-item>
             <el-checkbox
               style="margin-bottom:0"
               v-model="loginForm.rememberMe"
-              >记住密码</el-checkbox
-            >
+            >记住密码</el-checkbox>
             <div style="float: right; font-size: 12px;">
-              <router-link class="link-type" :to="'/login'">忘记密码</router-link><span>&nbsp;|</span>
-              <router-link class="link-type" :to="'/regist'">没有账号？立即注册</router-link>
+              <router-link
+                class="link-type"
+                :to="'/login'"
+              >忘记密码</router-link><span>&nbsp;|</span>
+              <router-link
+                class="link-type"
+                :to="'/regist'"
+              >没有账号？立即注册</router-link>
             </div>
           </el-form-item>
           <el-form-item style="width: 100%">
@@ -102,7 +115,7 @@ export default {
   components: {
     // VFooter,
   },
-  data:function() {
+  data: function () {
     return {
       encrypt: "",
       decrypt: "",
@@ -135,8 +148,10 @@ export default {
 
   computed: {},
 
-  created:function() {},
-  mounted:function() {
+  created: function () {
+    this.$store.dispatch("FedLogOut");
+    this.$store.dispatch("LogOut");},
+  mounted: function () {
     var jsencrypt = require("~/plugins/jsencrypt");
     this.encrypt = jsencrypt.encrypt;
     this.decrypt = jsencrypt.decrypt;
@@ -146,20 +161,20 @@ export default {
   },
 
   methods: {
-    getCode:function() {
+    getCode: function () {
       var that = this;
       api.getCodeImg().then((res) => {
-        if(res){
-        that.captchaOnOff =
-          res.captchaOnOff === undefined ? true : res.captchaOnOff;
-        if (that.captchaOnOff) {
-          that.codeUrl = "data:image/gif;base64," + res.img;
-          that.loginForm.uuid = res.uuid;
-        }
+        if (res) {
+          that.captchaOnOff =
+            res.captchaOnOff === undefined ? true : res.captchaOnOff;
+          if (that.captchaOnOff) {
+            that.codeUrl = "data:image/gif;base64," + res.img;
+            that.loginForm.uuid = res.uuid;
+          }
         }
       });
     },
-    getCookie:function() {
+    getCookie: function () {
       const username = Cookies.get("username");
       const password = Cookies.get("password");
       const rememberMe = Cookies.get("rememberMe");
@@ -172,7 +187,7 @@ export default {
         rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
       };
     },
-    handleLogin:function() {
+    handleLogin: function () {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
@@ -211,11 +226,13 @@ export default {
             .dispatch("Login", this.loginForm)
             .then(() => {
               this.$store.dispatch("GetInfo").then((res) => {
-                this.$router.push("/");
+                if(res.code == 200){
+                  this.$router.replace("/");
+                }
               });
             })
             .catch((error) => {
-              console.log(error)
+              console.log(error);
               this.loading = false;
               if (this.captchaOnOff) {
                 this.getCode();

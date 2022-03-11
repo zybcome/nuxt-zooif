@@ -1,6 +1,6 @@
 import axios from 'axios'
-
-import { Message, Notification } from 'element-ui' // 这里使用了element-ui的消息提示方法，也可自行定义 
+import Vue from 'vue'
+import { Message, Notification,MessageBox } from 'element-ui' // 这里使用了element-ui的消息提示方法，也可自行定义 
 
 import { getToken } from './auth'
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -9,8 +9,8 @@ let service = axios.create({
   timeout: 10000
 })
 
- // 请求拦截 可在请求头中加入token等
-service.interceptors.request.use(function(config) {
+// 请求拦截 可在请求头中加入token等
+service.interceptors.request.use(function (config) {
   // 是否需要设置 token
   const isToken = (config.headers || {}).isToken === false
   if (getToken() && !isToken) {
@@ -25,29 +25,49 @@ service.interceptors.request.use(function(config) {
   }
   return config
 
-}, function(error) {
+}, function (error) {
   // console.log(error)
   return Promise.reject(error)
 })
 
 // 响应拦截 对响应消息作初步的处理
-service.interceptors.response.use(function(resp) {
+service.interceptors.response.use(function (resp) {
+
+  const code = resp.data.code || 200;
+  // 获取错误信息
+  const msg = resp.data.msg
   // console.log(resp)
   if (resp.data) {
-    if (resp.data.code !== 200) {
+    if (code === 401) {
+      MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
+        confirmButtonText: '重新登录',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+      ).then(() => {
+        store.dispatch('LogOut').then(() => {
+          location.href = '/index';
+        })
+      }).catch(() => { });
+      return resp.data
+    } else if (code === 500) {
       Message({
-        type: 'error',
-        message: resp.data.msg,
-        duration: 3000,
-        closable: true
+        message: msg,
+        type: 'error'
       })
-    }else{
-      return resp.data 
+      return Promise.reject(new Error(msg))
+    } else if (code !== 200) {
+      Notification.error({
+        title: msg
+      })
+      return Promise.reject('error')
+    } else {
+      return resp.data
     }
   } else {
     return resp
   }
-}, function(error) {
+}, function (error) {
   // console.log(error.response)
   if (error.response) {
     Notification.error({

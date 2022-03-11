@@ -9,12 +9,12 @@
         to="/"
         style="font-size:24px;font-weight: bold;"
       >
-      ZooIf
-      <!-- <img
+        <!-- ZooIf -->
+        <img
           src="@/static/img/logo.png"
           alt=""
-        /> -->
-        </nuxt-link>
+        />
+      </nuxt-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -57,13 +57,12 @@
           />
           <li class="nav-item dropdown">
             <nuxt-link
-              v-show="token"
+              v-show="!token"
               class="nav-link link_border"
               to="/login"
-              >登录</nuxt-link
-            >
+            >登录</nuxt-link>
             <nuxt-link
-              v-show="!token"
+              v-show="token"
               class="nav-link dropdown-toggle"
               to="#"
               id="navbarDropdown-user"
@@ -71,14 +70,24 @@
               data-toggle="dropdown"
               aria-expanded="false"
             >
-              <img style="margin-top: -2px; width: 20px" :src="avatar" alt="" />
+              <img
+                style="margin-top: -2px; width: 20px"
+                :src="avatar"
+                alt=""
+              />
               <span>{{ name }}</span>
             </nuxt-link>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown-user">
+            <div
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdown-user"
+            >
               <!-- <nuxt-link class="dropdown-item" to="http://192.168.20.63:7788"
                 >会员中心</nuxt-link
               > -->
-              <a to="#" class="dropdown-item" @click="outLogin"
+              <a
+                to="#"
+                class="dropdown-item"
+                @click="outLogin"
               >退出登录</a>
             </div>
           </li>
@@ -96,7 +105,7 @@ export default {
   data() {
     return {
       myFullpage: "",
-      token: true,
+      token: false,
       avatar: "",
       name: "",
     };
@@ -115,23 +124,37 @@ export default {
   methods: {
     fetchDate() {
       if (getToken()) {
-        this.token = false;
-      } else {
         this.token = true;
+      } else {
+        this.token = false;
       }
-      if (getToken() && !this.$store.state.user.name) {
-        this.$store.dispatch("GetInfo").then((res) => {
-          this.avatar = this.$store.state.user.avatar;
-          this.name = this.$store.state.user.name;
-        });
+      if (!this.token || this.$store.state.user.name == "") {
+        if (this.$route.name != "login" && this.$route.name != "regist") {
+          this.$store.dispatch("GetInfo").then((res) => {
+            if (res.code == 200) {
+              this.avatar = this.$store.state.user.avatar;
+              this.name = this.$store.state.user.name;
+            }else{
+              this.token = false;
+              this.$store.dispatch("FedLogOut")
+            }
+          });
+        } else {
+          this.token = false;
+        }
       } else {
         this.avatar = this.$store.state.user.avatar;
         this.name = this.$store.state.user.name;
       }
     },
     outLogin() {
-      this.$store.dispatch("FedLogOut").then((res) => {
-        this.reload();
+      this.$store.dispatch("LogOut").then((res) => {
+        if (res.code == 200) {
+          this.$store.dispatch("FedLogOut").then((res) => {
+            this.$router.push("/login");
+            this.reload();
+          });
+        }
       });
     },
   },

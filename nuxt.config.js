@@ -5,7 +5,7 @@ export default {
         port: 9986 // default: 3000
     },
     head: {
-        title: 'ZooIf',
+        title: 'WDomain',
         meta: [
             { 'http-equiv': "Content-Type", charset: 'text/html;utf-8' },
             { name: 'description', content: "fullPage callback function." },
