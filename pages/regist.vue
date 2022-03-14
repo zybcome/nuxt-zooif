@@ -191,9 +191,9 @@ export default {
         username: [
           { required: true, trigger: "blur", message: "请输入您的账号" },
           {
-            min: 2,
+            min: 6,
             max: 20,
-            message: "用户账号长度必须介于 2 和 20 之间",
+            message: "用户账号长度必须介于 6 和 20 之间",
             trigger: "blur",
           },
         ],
@@ -208,9 +208,9 @@ export default {
         password: [
           { required: true, trigger: "blur", message: "请输入您的密码" },
           {
-            min: 5,
+            min: 6,
             max: 20,
-            message: "用户密码长度必须介于 5 和 20 之间",
+            message: "用户密码长度必须介于 6 和 20 之间",
             trigger: "blur",
           },
         ],
