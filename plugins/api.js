@@ -3,7 +3,7 @@ import {
   post
 } from '@/plugins/axios'
 const admin = "";
-const http = "http://127.0.0.1:7410"
+const http = "http://39.105.43.110:810"
 export default {
   ServerDomain: '',
   login: data => post(http+admin + '/login', data),
