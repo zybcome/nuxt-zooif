@@ -42,13 +42,26 @@
               首页
             </nuxt-link>
           </li>
-          <li class="nav-item">
+
+          <li class="nav-item dropdown">
             <nuxt-link
-              class="nav-link"
-              to="/tiktok"
-            >
-              抖音去水印
+              class="nav-link dropdown-toggle"
+              to="#"
+              id="navbarDropdown-user"
+              role="button"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >工具
             </nuxt-link>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdown-user"
+            >
+              <nuxt-link
+                to="/tiktok"
+                class="dropdown-item"
+              >抖音去水印</nuxt-link>
+            </div>
           </li>
           <img
             class="shudian"
@@ -85,7 +98,6 @@
                 >会员中心</nuxt-link
               > -->
               <a
-                to="#"
                 class="dropdown-item"
                 @click="outLogin"
               >退出登录</a>
@@ -134,9 +146,9 @@ export default {
             if (res.code == 200) {
               this.avatar = this.$store.state.user.avatar;
               this.name = this.$store.state.user.name;
-            }else{
+            } else {
               this.token = false;
-              this.$store.dispatch("FedLogOut")
+              this.$store.dispatch("FedLogOut");
             }
           });
         } else {

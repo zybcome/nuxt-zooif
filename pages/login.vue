@@ -8,7 +8,7 @@
           <span
             class="title-text"
             style="font-weight:bold"
-          >WDomain</span>
+          >ZooIf</span>
         </h3>
         <el-form
           ref="loginForm"

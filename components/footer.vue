@@ -3,8 +3,8 @@
   <div>
     <div class="page4_bottom">
       <div>
-        <p data-locale="CopyRight">
-          CopyRight © 2021 ZOOIF.COM 版權所有，保留所有權利
+        <p>
+          CopyRight © 2022 ZOOIF.COM 版权所有，保留所有权利
         </p>
       </div>
     </div>
