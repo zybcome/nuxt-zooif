@@ -9,11 +9,11 @@
         to="/"
         style="font-size:24px;font-weight: bold;"
       >
-        <!-- ZooIf -->
-        <img
+        ZooIf
+        <!-- <img
           src="@/static/img/logo.png"
           alt=""
-        />
+        /> -->
       </nuxt-link>
       <button
         class="navbar-toggler"
@@ -45,9 +45,9 @@
           <li class="nav-item">
             <nuxt-link
               class="nav-link"
-              to="/whois"
+              to="/tiktok"
             >
-              Whois
+              抖音去水印
             </nuxt-link>
           </li>
           <img

@@ -28,6 +28,7 @@ export default {
             { rel: 'stylesheet', href: '/css/bootstrap.min.css' },
             { rel: 'stylesheet', href: '/css/nav.css' },
             { rel: 'stylesheet', href: '/css/footer.css' },
+            { rel: 'stylesheet', href: '/css/main.css' },
             { rel: 'stylesheet', href: '/font/iconfont.css' },
         ],
     },

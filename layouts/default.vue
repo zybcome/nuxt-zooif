@@ -2,11 +2,13 @@
   <div class="box-all">
     <v-header v-if="isRouterAlive"></v-header>
     <nuxt v-if="isRouterAlive" />
+    <v-footer v-if="isRouterAlive"></v-footer>
   </div>
 </template>
 
 <script>
 import VHeader from "~/components/header";
+import VFooter from "~/components/footer";
 
 export default {
   provide() {
@@ -21,6 +23,7 @@ export default {
   },
   components: {
     VHeader,
+    VFooter
   },
   methods: {
     reload() {

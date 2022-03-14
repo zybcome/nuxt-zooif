@@ -4,10 +4,10 @@
     <div class="whois_search">
       <div class="whois_search_position">
         <p class="whois_search_title">
-          Whois查询
+          抖音去水印解析
         </p>
         <p class="whois_search_p">
-          WHOIS 查询：域名注册信息、DNS 服务器、解析记录、IP 地址等，想查就查！
+          复制抖音视频分享链接到下面输入框进行解析
         </p>
         <div class="whois_search_div">
           <input
@@ -21,7 +21,7 @@
           >
             <i class="iconfont icon-sousuo"></i>
             <span>
-              查询
+              解析
             </span>
           </button>
         </div>
@@ -50,7 +50,7 @@
         </section>
       </div>
     </div>
-    <v-footer></v-footer>
+    <!-- <v-footer></v-footer> -->
     <el-dialog
       title="预览"
       :visible.sync="dialogVideoStatus"
@@ -88,11 +88,11 @@
 
 <script>
 import api from "~/plugins/api";
-import VFooter from "~/components/footer";
+// import VFooter from "~/components/footer";
 import { Message } from "element-ui";
 export default {
   components: {
-    VFooter,
+    // VFooter,
   },
   data: function () {
     return {

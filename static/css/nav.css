@@ -11,10 +11,10 @@ body {
     min-width: 6rem;
 }
 
-p {
+/* p {
     word-wrap: break-word;
     overflow: hidden;
-}
+} */
 .box-all {
     height: 100%;
     width: 100%;
