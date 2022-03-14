@@ -14,14 +14,14 @@ export default {
             { name: 'Resource-type', content: "Document" },
             { hid: 'description', name: 'description', content: '' },
             { name: 'format-detection', content: 'telephone=no' },
-            { name: 'referrer', content: 'never' }
+            { name: 'referrer', content: 'never' },
+            { name: 'referrer', content: 'strict-origin-when-cross-origin' },
         ],
         script: [
             { src: '/js/jquery-3.6.0.min.js', type: "text/javascript" },
             { src: '/js/jquery.i18n.properties-min-1.0.9.js', type: "text/javascript" },
             { src: '/js/bootstrap.min.js', type: "text/javascript" },
             { src: '/js/baidutongji.js', type: "text/javascript" },
-            { src: 'https://ssl.captcha.qq.com/TCaptcha.js', type: "text/javascript" },
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

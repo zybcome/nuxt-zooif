@@ -58,9 +58,13 @@
               aria-labelledby="navbarDropdown-user"
             >
               <nuxt-link
-                to="/tiktok"
+                to="/tool/tiktok"
                 class="dropdown-item"
               >抖音去水印</nuxt-link>
+              <nuxt-link
+                to="/tool/text"
+                class="dropdown-item"
+              >国际化转换</nuxt-link>
             </div>
           </li>
           <img
