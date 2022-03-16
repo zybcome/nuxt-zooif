@@ -47,7 +47,7 @@ export default {
   beforeMount: function () {},
   mounted: function () {
     if (getToken()) {
-      this.openPath="/tiktok"
+      this.openPath="/tool/tiktok"
     } else {
       this.openPath="/login"
     }
