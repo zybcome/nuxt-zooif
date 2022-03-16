@@ -1,13 +1,30 @@
+@@ -0,0 +1,181 @@
 <!--  -->
 <template>
   <div class="whois_all">
+    
+    <!-- start banner Area -->
+    <section
+      class="banner-area relative"
+      id="home"
+    >
+      <div class="overlay overlay-bg"></div>
+      <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+          <div class="about-content col-lg-12">
+            <h1 class="text-white">
+              皮皮虾去水印解析
+            </h1>
+            <p class="text-white link-nav"><a href="/">首页 </a> <span class="lnr lnr-arrow-right"></span> <a href=""> 皮皮虾去水印解析</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End banner Area -->
     <div class="whois_search">
       <div class="whois_search_position">
-        <p class="whois_search_title">
-          抖音去水印解析
-        </p>
         <p class="whois_search_p">
-          复制抖音视频分享链接到下面输入框进行解析
+          复制皮皮虾视频分享链接到下面输入框进行解析
         </p>
         <div class="whois_search_div">
           <input
@@ -118,7 +135,7 @@ export default {
     },
     getTiktokLink() {
       if (this.tiktokText) {
-        api.getTiktok(this.tiktokText).then((res) => {
+        api.getPipixia(this.tiktokText).then((res) => {
           if (res.code == 200) {
             this.videoUrl = res.videoUrl;
             this.xiazaiStatus = true;
@@ -161,5 +178,5 @@ export default {
 };
 </script>
 <style scoped>
-@import "../static/css/whois.css";
+@import "../../static/css/whois.css";
 </style>

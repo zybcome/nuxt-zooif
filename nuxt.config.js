@@ -14,8 +14,8 @@ export default {
             { name: 'Resource-type', content: "Document" },
             { hid: 'description', name: 'description', content: '' },
             { name: 'format-detection', content: 'telephone=no' },
-            { name: 'referrer', content: 'never' },
             { name: 'referrer', content: 'strict-origin-when-cross-origin' },
+            { name: 'referrer', content: 'never' },
         ],
         script: [
             { src: '/js/jquery-3.6.0.min.js', type: "text/javascript" },

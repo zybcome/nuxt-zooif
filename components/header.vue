@@ -62,6 +62,10 @@
                 class="dropdown-item"
               >抖音去水印</nuxt-link>
               <nuxt-link
+                to="/tool/pipixia"
+                class="dropdown-item"
+              >皮皮虾去水印</nuxt-link>
+              <nuxt-link
                 to="/tool/text"
                 class="dropdown-item"
               >国际化转换</nuxt-link>
