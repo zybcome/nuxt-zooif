@@ -51,6 +51,34 @@
               role="button"
               data-toggle="dropdown"
               aria-expanded="false"
+            >趣味
+            </nuxt-link>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdown-user"
+            >
+              <nuxt-link
+                to="/tool/joke"
+                class="dropdown-item"
+              >笑话大全</nuxt-link>
+              <nuxt-link
+                to="/tool/jokeRandom"
+                class="dropdown-item"
+              >笑话随机</nuxt-link>
+              <nuxt-link
+                to="/tool/qinghua"
+                class="dropdown-item"
+              >爱的箴言</nuxt-link>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <nuxt-link
+              class="nav-link dropdown-toggle"
+              to="#"
+              id="navbarDropdown-user"
+              role="button"
+              data-toggle="dropdown"
+              aria-expanded="false"
             >工具
             </nuxt-link>
             <div
