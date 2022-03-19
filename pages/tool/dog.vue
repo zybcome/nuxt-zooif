@@ -13,9 +13,9 @@
         <div class="row d-flex align-items-center justify-content-center">
           <div class="about-content col-lg-12">
             <h1 class="text-white">
-              爱的箴言
+              舔狗日记
             </h1>
-            <p class="text-white link-nav"><a href="/">首页 </a> <span class="lnr lnr-arrow-right"></span> <a href=""> 爱的箴言</a></p>
+            <p class="text-white link-nav"><a href="/">首页 </a> <span class="lnr lnr-arrow-right"></span> <a href=""> 舔狗日记</a></p>
           </div>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default {
 
   methods: {
     getQinghuaList() {
-      api.getQinghua().then((res) => {
+      api.getDog().then((res) => {
         if (res.code == 200) {
           this.textList = res.data;
         }

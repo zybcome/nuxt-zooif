@@ -69,6 +69,10 @@
                 to="/tool/qinghua"
                 class="dropdown-item"
               >爱的箴言</nuxt-link>
+              <nuxt-link
+                to="/tool/dog"
+                class="dropdown-item"
+              >舔狗日记</nuxt-link>
             </div>
           </li>
           <li class="nav-item dropdown">

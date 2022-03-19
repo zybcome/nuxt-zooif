@@ -20,4 +20,5 @@ export default {
   getJoke: data => post(alapi+admin + '/joke', {token:"6ANYpr3duQPq0T2H",page:1,num:10}),
   getJokeRandom: data => post(alapi+admin + '/joke/random', {token:"6ANYpr3duQPq0T2H"}),
   getQinghua : data => post(alapi+admin + '/qinghua ', {token:"6ANYpr3duQPq0T2H"}),
+  getDog : data => post(alapi+admin + '/dog ', {token:"6ANYpr3duQPq0T2H"}),
 }
