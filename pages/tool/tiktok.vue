@@ -121,7 +121,11 @@ export default {
       dialogVideoStatus: false,
     };
   },
-
+  head:{
+    meta: [
+        { name: 'referrer', content: 'never' },
+    ],
+  },
   computed: {},
 
   mounted: function () {},

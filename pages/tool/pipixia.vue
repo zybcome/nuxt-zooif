@@ -122,6 +122,11 @@ export default {
     };
   },
 
+  head:{
+    meta: [
+        { name: 'referrer', content: 'never' },
+    ],
+  },
   computed: {},
 
   mounted: function () {},
