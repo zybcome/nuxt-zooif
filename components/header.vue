@@ -42,7 +42,18 @@
               首页
             </nuxt-link>
           </li>
-
+          <li
+            class="nav-item"
+            data-menuanchor="firstPage"
+          >
+            <a
+              class="nav-link"
+              href="http://layui.zooif.com"
+              target="_blank"
+            >
+              layui
+            </a>
+          </li>
           <li class="nav-item dropdown">
             <nuxt-link
               class="nav-link dropdown-toggle"
