@@ -109,6 +109,10 @@
                 class="dropdown-item"
               >皮皮虾去水印</nuxt-link>
               <nuxt-link
+                to="/tool/qrCode"
+                class="dropdown-item"
+              >二维码生成器</nuxt-link>
+              <nuxt-link
                 to="/tool/text"
                 class="dropdown-item"
               >国际化转换</nuxt-link>

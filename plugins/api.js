@@ -13,6 +13,7 @@ export default {
   getInfo: data => get(http+admin + '/getInfo', data),
   getTiktok: data => post(http+admin + '/system/tiktok', data),
   getPipixia: data => post(http+admin + '/system/pipixia', data),
+  getQrCode: data => post(http+admin + '/system/QrCode', data),
   logout: data => post(http+admin + '/logout', data),
   register: data => post(http+admin + '/register', data),
   RefreshToken: data => post(http+admin + '/refresh', data),

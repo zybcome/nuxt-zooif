@@ -9,10 +9,10 @@ export default {
         meta: [
             { 'http-equiv': "Content-Type", charset: 'text/html;utf-8' },
             { name: 'description', content: "fullPage callback function." },
-            { name: 'keywords', content: "fullpage,jquery,demo,callbac,function,event" },
+            { name: 'keywords', content: "zooif,简繁体翻译,抖音无水印下载,皮皮虾无水印下载,笑话大全,舔狗日记,实用小工具" },
             { name: 'viewport', content: 'initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no' },
             { name: 'Resource-type', content: "Document" },
-            { hid: 'description', name: 'description', content: '' },
+            { name: 'description', content: 'zooif，提供各种实用小工具，抖音视频去水印下载，皮皮虾视频去水印下载，笑话大全，提供实用小工具' },
             { name: 'format-detection', content: 'telephone=no' },
             { name: 'referrer', content: 'strict-origin-when-cross-origin' },
         ],
