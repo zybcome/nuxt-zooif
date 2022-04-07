@@ -112,6 +112,14 @@
                 to="/tool/qrCode"
                 class="dropdown-item"
               >二维码生成器</nuxt-link>
+              <a
+                class="nav-link"
+                style="color:#16181b !important;font-weight: 400;"
+                href="http://zooif.com/avatar"
+                target="_blank"
+              >
+                头像生成器
+              </a>
               <nuxt-link
                 to="/tool/text"
                 class="dropdown-item"
