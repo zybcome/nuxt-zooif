@@ -31,19 +31,18 @@
             type="text"
             class="form-control whois_search_input"
             v-model="qrCodeText"
-            style="width:100%"
             placeholder="请输入要验证的内容"
           />
-            <span>reg.test(str)</span>
-          <!-- <button
+          <button
             class="whois_search_button"
-            @click="getQrCode()"
+            @click="isTest(qrCodeText,reg)"
           >
             <span>
-              生成
+              验证
             </span>
-          </button> -->
+          </button>
         </div>
+          <p style="text-align: left;">{{regStr}}</p>
       </div>
     </div>
 
@@ -60,7 +59,7 @@
               :content="it.test.toString()"
               placement="top-start"
             >
-              <el-button @click="isTest(qrCodeText,it.test)">{{it.msg}}</el-button>
+              <el-button @click="setReg(it)">{{it.msg}}</el-button>
             </el-tooltip>
           </div>
         </section>
@@ -79,6 +78,8 @@ export default {
   },
   data: function () {
     return {
+      reg: "",
+      regStr: "请选择操作方式",
       qrCodeText: "",
       qrCodeImg: "",
       // shipinStatus: false,
@@ -95,84 +96,84 @@ export default {
           test: /^(0\d{2,3}-\d{7,8})(-\d{1,4})?$/,
           msg: "座机号码",
         },
-        isEmail:{
+        isEmail: {
           test: /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
           msg: "邮箱",
         },
-        isDomain:{
+        isDomain: {
           test: /^([a-zA-Z0-9][-a-zA-Z0-9]{0,62})(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?$/,
           msg: "域名",
         },
-        isHttp:{
+        isHttp: {
           test: /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/,
           msg: "网址",
         },
-        isIDCard:{
+        isIDCard: {
           test: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
           msg: "身份证",
         },
         //是否为生日
-        isBirthday:{
+        isBirthday: {
           test: /^((((19|20)(([02468][048])|([13579][26]))-02-29))|((20[0-9][0-9])|(19[0-9][0-9]))-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((01,3-9])|(1[0-2]))-(29|30)))))$/,
           msg: "生日",
         },
-        isIp:{
+        isIp: {
           test: /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
           msg: "IP",
         },
-        isCheineseName:{
+        isCheineseName: {
           test: /^[\u4E00-\u9FA5]{2,4}$/,
           msg: "中文姓名",
         },
-        isEnglishName:{
+        isEnglishName: {
           test: /^[a-zA-Z]{2,20}$/,
           msg: "英文姓名",
         },
         //是否为正整数
-        isPositiveInteger:{
+        isPositiveInteger: {
           test: /^[1-9]\d*$/,
           msg: "正整数",
         },
         //是否为整数
-        isInteger:{
+        isInteger: {
           test: /^-?\d+$/,
           msg: "整数",
         },
         //是否为浮点数
-        isFloat:{
+        isFloat: {
           test: /^(-?\d+)(\.\d+)?$/,
           msg: "浮点数",
         },
         //是否为两位小数
-        isTwoDecimal:{
+        isTwoDecimal: {
           test: /^\d+(\.\d{1,2})?$/,
           msg: "两位小数",
         },
         //判断密码强度
-        isPassword:{
+        isPassword: {
           test: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
           msg: "密码强度",
         },
-        //钱的输入格式  
-        isMoney:{
+        //钱的输入格式
+        isMoney: {
           test: /^(([1-9]\d*)|\d)(\.\d{1,2})?$/,
           msg: "金额",
         },
-        isImg:{
+        isImg: {
           test: /\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/,
           msg: "图片格式",
         },
-        isTrim:{
+        isTrim: {
           test: /^\s*|\s*$/,
           msg: "去除首尾空格",
         },
         //QQ号码
-        isQQ:{
+        isQQ: {
           test: /^[1-9]\d{4,10}$/,
           msg: "QQ号码",
         },
         //邮政编码
-        isPostalCode:{
+        isPostalCode: {
           test: /^[1-9]\d{5}$/,
           msg: "邮政编码",
         },
@@ -184,12 +185,11 @@ export default {
   },
   computed: {},
 
-  mounted: function () {
-  },
+  mounted: function () {},
 
   methods: {
     isTest: function (str, reg) {
-      if(str.length==0){
+      if (str.length == 0) {
         Message.error("请输入内容");
         return;
       }
@@ -198,13 +198,17 @@ export default {
         type: reg.test(str) ? "success" : "error",
       });
     },
+    setReg(reg) {
+      this.reg = reg.test;
+      this.regStr = reg.msg+"："+reg.test;
+    },
   },
 };
 </script>
 <style scoped>
 @import "../../static/css/whois.css";
-.el-button{
-  margin-right:10px;
+.el-button {
+  margin-right: 10px;
   margin-bottom: 10px;
   margin-left: 0 !important;
 }

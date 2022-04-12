@@ -69,7 +69,7 @@
           <li class="nav-item dropdown">
             <nuxt-link
               class="nav-link dropdown-toggle"
-              to="#"
+              to=""
               id="navbarDropdown-user"
               role="button"
               data-toggle="dropdown"
@@ -101,7 +101,7 @@
           <li class="nav-item dropdown">
             <nuxt-link
               class="nav-link dropdown-toggle"
-              to="#"
+              to=""
               id="navbarDropdown-user"
               role="button"
               data-toggle="dropdown"
@@ -148,7 +148,7 @@
             <nuxt-link
               v-show="token"
               class="nav-link dropdown-toggle"
-              to="#"
+              to=""
               id="navbarDropdown-user"
               role="button"
               data-toggle="dropdown"
