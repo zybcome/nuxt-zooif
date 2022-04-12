@@ -124,6 +124,10 @@
                 to="/tool/text"
                 class="dropdown-item"
               >国际化转换</nuxt-link>
+              <nuxt-link
+                to="/tool/regularExpression"
+                class="dropdown-item"
+              >正则验证</nuxt-link>
             </div>
           </li>
           <img

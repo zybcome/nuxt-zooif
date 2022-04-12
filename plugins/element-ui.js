@@ -6,12 +6,12 @@
 
 import Vue from 'vue'
 import {
-    Message, Notification, Loading, Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog
+    Message, Notification, Loading, Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog,Tooltip
 } from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 
 const components = [
-    Message, Notification,Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog
+    Message, Notification,Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog,Tooltip
 ];
 
 const Element = {
