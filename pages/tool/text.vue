@@ -67,6 +67,18 @@
                 class="btn btn-warning btn-sm"
               >简体转繁体转unicode</button>
               <button
+                @click="click_btn_left(6)"
+                class="btn btn-warning btn-sm"
+              >获取等号前</button>
+              <button
+                @click="click_btn_left(7)"
+                class="btn btn-warning btn-sm"
+              >获取等号后</button>
+              <button
+                @click="click_btn_left(8)"
+                class="btn btn-warning btn-sm"
+              >以等号合并</button>
+              <button
                 @click="click_btn_left(5)"
                 class="btn btn-danger btn-sm"
               >清空</button>
@@ -116,7 +128,6 @@ export default {
         if (index == arrayVal.length - 1) {
           str += that.setTitles(func(res));
         } else {
-          console.log(func(res))
           str += that.setTitles(func(res)) + "\n";
         }
       }
@@ -170,6 +181,41 @@ export default {
           // 清空
           $("#textarea_val1").val("");
           $("#textarea_val2").val("");
+          break;
+        case 6:
+          // 获取等号前
+          arrayVal.filter((res, index) => {
+            if(res.indexOf("=")!=-1){
+              var text = res.split("=")[0];
+              steStr(arrayVal, res=>{return res}, text, index);
+            }
+          });
+          $("#textarea_val2").val(str);
+          $("#textarea_val2").select();
+          document.execCommand("copy");
+          break;
+        case 7:
+          // 获取等号后
+          arrayVal.filter((res, index) => {
+            if(res.indexOf("=")!=-1){
+              var text = res.split("=")[1];
+              steStr(arrayVal, res=>{return res}, text, index);
+            }
+          });
+          $("#textarea_val2").val(str);
+          $("#textarea_val2").select();
+          // document.execCommand("copy");
+          break;
+        case 8:
+          var arrayVal2 = this.toArray($("#textarea_val2").val());
+          // 已等号合并
+          arrayVal.filter((res, index) => {
+            res += "=" + arrayVal2[index];
+            steStr(arrayVal, res=>{return res}, res, index);
+          });
+          $("#textarea_val2").val(str);
+          $("#textarea_val2").select();
+          document.execCommand("copy");
           break;
         default:
           alert("错误");
