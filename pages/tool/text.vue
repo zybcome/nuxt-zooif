@@ -68,15 +68,15 @@
               >简体转繁体转unicode</button>
               <button
                 @click="click_btn_left(6)"
-                class="btn btn-warning btn-sm"
+                class="btn btn-sm btn-outline-primary"
               >获取等号前</button>
               <button
                 @click="click_btn_left(7)"
-                class="btn btn-warning btn-sm"
+                class="btn btn-sm btn-outline-success"
               >获取等号后</button>
               <button
                 @click="click_btn_left(8)"
-                class="btn btn-warning btn-sm"
+                class="btn btn-sm btn-outline-danger"
               >以等号合并</button>
               <button
                 @click="click_btn_left(5)"
