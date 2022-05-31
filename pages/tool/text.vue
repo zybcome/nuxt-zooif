@@ -91,7 +91,6 @@
               id="textarea_val2"
               rows="10"
               cols="30"
-              readonly
             ></textarea>
           </div>
         </div>
