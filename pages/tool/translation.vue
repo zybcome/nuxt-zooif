@@ -165,6 +165,13 @@ export default {
       return returnArry;
     },
     translate(type) {
+      if($("#textarea_val1").val()==""){
+        Message({
+          message: "请输入要翻译的文本",
+          type: "warning"
+        });
+        return;
+      }
       var that = this;
       that.result = "";
       if(type=="i18n"){
