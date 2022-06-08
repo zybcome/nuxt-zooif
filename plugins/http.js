@@ -8,7 +8,22 @@ let service = axios.create({
   // baseURL: 'https://tool.longming.com',
   timeout: 10000
 })
-
+let tansParams = function(params) {
+  let result = ''
+  Object.keys(params).forEach((key) => {
+    if (!Object.is(params[key], undefined) && !Object.is(params[key], null) && !Object.is(JSON.stringify(params[key]), '{}')) {
+      let type = Object.prototype.toString.call(params[key]);
+      if (type == "[object Object]") {
+        for (var i in params[key]) {
+          result += encodeURIComponent(key) + '%5B' + encodeURIComponent(i) + '%5D=' + encodeURIComponent(params[key][i]) + '&'
+        }
+      } else {
+        result += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) + '&'
+      }
+    }
+  })
+  return result
+}
 // 请求拦截 可在请求头中加入token等
 service.interceptors.request.use(function (config) {
   // 是否需要设置 token

@@ -132,6 +132,10 @@
                 to="/tool/regularExpression"
                 class="dropdown-item"
               >正则验证</nuxt-link>
+              <nuxt-link
+                to="/tool/translation"
+                class="dropdown-item"
+              >翻译</nuxt-link>
             </div>
           </li>
           <img

@@ -21,6 +21,7 @@ export default {
             { src: '/js/jquery.i18n.properties-min-1.0.9.js', type: "text/javascript" },
             { src: '/js/bootstrap.min.js', type: "text/javascript" },
             { src: '/js/baidutongji.js', type: "text/javascript" },
+            { src: 'https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js', type: "text/javascript" }
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -92,15 +93,24 @@ export default {
     axios: {
         proxy: true, // 需要的，不设置请求无法转发
     },
-    // proxy: [
-    //     [
-    //         '/dev-api',
-    //         {
-    //             target: 'http://127.0.0.1:7410',
-    //             // target: 'http://192.168.20.114:8080',
-    //             changeOrigin: true,
-    //             pathRewrite: { '^/dev-api': '/' }
-    //         }
-    //     ]
-    // ]
+    proxy: [
+        // [
+        //     '/translateApi',
+        //     {
+        //         target: 'http://openapi.youdao.com/api',
+        //         // target: 'http://192.168.20.114:8080',
+        //         changeOrigin: true,
+        //         pathRewrite: { '^/translateApi': '/' }
+        //     }
+        // ],
+        [
+            '/translate',
+            {
+                target: 'http://fanyi.youdao.com',
+                // target: 'http://192.168.20.114:8080',
+                changeOrigin: true,
+                // pathRewrite: { '^/translate': '/' }
+            }
+        ],
+    ]
 }
