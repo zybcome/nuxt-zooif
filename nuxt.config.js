@@ -103,14 +103,14 @@ export default {
         //         pathRewrite: { '^/translateApi': '/' }
         //     }
         // ],
-        [
-            '/translate',
-            {
-                target: 'http://fanyi.youdao.com',
-                // target: 'http://192.168.20.114:8080',
-                changeOrigin: true,
-                // pathRewrite: { '^/translate': '/' }
-            }
-        ],
+        // [
+        //     '/translate',
+        //     {
+        //         target: 'http://39.105.43.110:304',
+        //         // target: 'http://192.168.20.114:8080',
+        //         changeOrigin: true,
+        //         // pathRewrite: { '^/translate': '/' }
+        //     }
+        // ],
     ]
 }

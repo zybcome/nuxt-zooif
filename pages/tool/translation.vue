@@ -213,7 +213,8 @@ export default {
 
             // 有道免费翻译
             $.ajax({
-              url: '/translate',
+              url: 'http://39.105.43.110:304/translate',
+              // url: '/translate',
               type: 'get',
               data: {
                   doctype: "json",
