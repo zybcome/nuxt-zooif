@@ -37,6 +37,23 @@
               <option value="de">德文</option>
               <option value="th">泰语</option>
             </select> -->
+            <!-- 谷歌免费翻译 -->
+            <select class="form-control" id="exampleFormControlSelect1" disabled="disabled">
+              <option value="zh-CN">中文</option>
+              <!-- <option value="en">英语</option>
+              <option value="ko">韩语</option>
+              <option value="ja">日语</option>
+              <option value="fr">法语</option>
+              <option value="ru">俄语</option>
+              <option value="de">德语</option>
+              <option value="es">西班牙语</option>
+              <option value="pt">葡萄牙语</option>
+              <option value="it">意大利语</option>
+              <option value="vi">越南语</option>
+              <option value="id">印尼语</option>
+              <option value="ar">阿拉伯语</option>
+              <option value="nl">荷兰语</option> -->
+            </select>
             <textarea
               class="input_textarea"
               id="textarea_val1"
@@ -45,23 +62,33 @@
             ></textarea>
             <div class="btn_box col-12 col-sm-12">
               <!-- 有道免费翻译 -->
-              <select class="form-control" id="exampleFormControlSelect1">
+              <!-- <select class="form-control" id="exampleFormControlSelect1">
                 <option value="auto">自动</option>
                 <option value="ZH_CN2EN">中文>>英文</option>
                 <option value="EN2ZH_CN">英文>>中文</option>
                 <option value="ZH_CN2JA">中文>>日语</option>
                 <option value="ZH_CN2KR">中文>>韩语</option>
-                <!-- <option value="ZH_CN2FR">中文>>法语</option>
-                <option value="ZH_CN2DE">中文>>德语</option>
-                <option value="ZH_CN2RU">中文>>俄语</option>
-                <option value="ZH_CN2ES">中文>>西班牙语</option>
-                <option value="ZH_CN2PT">中文>>葡萄牙语</option>
-                <option value="ZH_CN2IT">中文>>意大利语</option>
-                <option value="ZH_CN2VI">中文>>越南语</option>
-                <option value="ZH_CN2ID">中文>>印尼语</option>
-                <option value="ZH_CN2AR">中文>>阿拉伯语</option>
-                <option value="ZH_CN2NL">中文>>荷兰语</option>
-                <option value="ZH_CN2th">中文>>泰语</option> -->
+              </select> -->
+              <!-- 选择数量 -->
+              <select class="form-control" id="exampleFormControlSelectNum" disabled="disabled">
+                <option value="1000">1000</option>
+                <!-- <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="300">300</option>
+                <option value="400">400</option>
+                <option value="500">500</option>
+                <option value="600">600</option>
+                <option value="700">700</option>
+                <option value="800">800</option>
+                <option value="900">900</option>
+                <option value="1000">1000</option>
+                <option value="1500">1500</option>
+                <option value="2000">2000</option>
+                <option value="2500">2500</option>
+                <option value="3000">3000</option>
+                <option value="3500">3500</option>
+                <option value="4000">4000</option>
+                <option value="4500">4500</option> -->
               </select>
             </div>
           </div>
@@ -78,6 +105,23 @@
               <option value="de">德文</option>
               <option value="th">泰语</option>
             </select> -->
+            <!-- 谷歌免费翻译 -->
+            <select class="form-control" id="exampleFormControlSelect2">
+              <!-- <option value="zh-CN">中文</option> -->
+              <option value="en">英语</option>
+              <option value="ko">韩语</option>
+              <option value="ja">日语</option>
+              <option value="fr">法语</option>
+              <option value="ru">俄语</option>
+              <option value="de">德语</option>
+              <option value="es">西班牙语</option>
+              <option value="pt">葡萄牙语</option>
+              <option value="it">意大利语</option>
+              <option value="vi">越南语</option>
+              <option value="id">印尼语</option>
+              <option value="ar">阿拉伯语</option>
+              <option value="nl">荷兰语</option>
+            </select>
             <textarea
               class="input_textarea"
               id="textarea_val2"
@@ -111,7 +155,9 @@ export default {
     return {
       result: "",
       arrayAgo: [],
+      arrayAgo_no: [],
       arrayAfter: [],
+      arrayAfter_no: [],
     };},
 
   computed: {},
@@ -138,7 +184,7 @@ export default {
       let returnArry = [];
       let linshiStr = "";
       res.map((item,index) => {
-        if(linshiStr.length>=500){
+        if(linshiStr.length>=$("#exampleFormControlSelectNum").val()){
           // console.log(linshiStr);
           var linshiStrArry = this.toArray(linshiStr);
           var lastStr = linshiStrArry[linshiStrArry.length-2];
@@ -194,6 +240,7 @@ export default {
         var to = $("#exampleFormControlSelect2").val();
         var vocabId =  '2A732D8863284E69BA7399AACA7B962C';
         var item = that.reArry(that.arrayAfter);
+        console.log(item)
         var fewaf = [];
         item.filter((items,index) => {
           var str = "";
@@ -206,6 +253,27 @@ export default {
           });
           fewaf.push(str);
         });
+        that.arrayAgo_no.map((itemss,indexs) => {
+          let str = that.arrayAfter_no[indexs];
+          str = str.replace(/&a&/g, "\\n");
+          str = str.replace(/&b&/g, " ");
+          str = str.replace(/&c&/g, "。");
+          str = str.replace(/&d&/g, "<");
+          str = str.replace(/&e&/g, ">");
+          str = str.replace(/&f&/g, "class");
+          str = str.replace(/&g&/g, "/");
+          str = str.replace(/&h&/g, ".");
+          str = str.replace(/&i&/g, ":");
+          str = str.replace(/&j&/g, ",");
+          str = str.replace(/&k&/g, "，");
+          str = str.replace(/&l&/g, "；");
+          str = str.replace(/&m&/g, ";");
+          str = str.replace(/&n&/g, "？");
+          str = str.replace(/&o&/g, "?");
+          str = str.replace(/&p&/g, "！");
+          str = str.replace(/&q&/g, "!");
+          that.result += itemss+"="+str+"\n";
+        });
         var ArrayXiabiao = 0;
         var indexAgo = 0;
         function ajax_(){
@@ -217,28 +285,82 @@ export default {
 
 
 
+            // // 有道免费翻译
+            // $.ajax({
+            //   url: 'http://39.105.43.110:304/translate',
+            //   // url: '/translate',
+            //   type: 'get',
+            //   data: {
+            //       doctype: "json",
+            //       type: from,
+            //       i: query,
+            //   },
+            //   success: function (data) {
+            //     data.translateResult.map((items,index1)=>{
+            //       let str = "";
+            //       items.map(res=>{
+            //         str+=res.tgt;
+            //       })
+            //       str = str.replace(/&aaa&/g, "\\n");
+            //       str = str.replace(/&bbb&/g, " ");
+            //       if(type=="i18n"){
+            //         that.result += that.arrayAgo[indexAgo]+"="+str+"\n";
+            //       }else{
+            //         that.result += str+"\n";
+            //       }
+            //       indexAgo++;
+            //     });
+            //     ArrayXiabiao++;
+            //     if(ArrayXiabiao<=item.length-1){
+            //       ajax_();
+            //     }
+            //   }
+            // });
 
-            // 有道免费翻译
+
+            // 谷歌免费翻译
             $.ajax({
-              url: 'http://39.105.43.110:304/translate',
-              // url: '/translate',
+              url: 'http://39.105.43.110:304/translate_a/single',
+              // url: '/translate_a/single',
               type: 'get',
+              contentType: "application/json",
               data: {
-                  doctype: "json",
-                  type: from,
-                  i: query,
+                  client: "gtx",
+                  dt: "t",
+                  dj: 1,
+                  ie: "UTF-8",
+                  sl: from,
+                  tl: to,
+                  q: query,
               },
               success: function (data) {
-                data.translateResult.map((items,index1)=>{
-                  let str = "";
-                  items.map(res=>{
-                    str+=res.tgt;
-                  })
-                  
+                data.sentences.map((items,index1)=>{
+                  let str = items.trans;
+                  str = str.replace(/&a&/g, "\\n");
+                  str = str.replace(/&b&/g, " ");
+                  str = str.replace(/&c&/g, "。");
+                  str = str.replace(/&d&/g, "<");
+                  str = str.replace(/&e&/g, ">");
+                  str = str.replace(/&f&/g, "class");
+                  str = str.replace(/&g&/g, "/");
+                  str = str.replace(/&h&/g, ".");
+                  str = str.replace(/&i&/g, ":");
+                  str = str.replace(/&j&/g, ",");
+                  str = str.replace(/&k&/g, "，");
+                  str = str.replace(/&l&/g, "；");
+                  str = str.replace(/&m&/g, ";");
+                  str = str.replace(/&n&/g, "？");
+                  str = str.replace(/&o&/g, "?");
+                  str = str.replace(/&p&/g, "！");
+                  str = str.replace(/&q&/g, "!");
                   if(type=="i18n"){
-                    that.result += that.arrayAgo[indexAgo]+"="+str+"\n";
+                    if(str.indexOf("\n")==-1){
+                      that.result += that.arrayAgo[indexAgo]+"="+str+"\n";
+                    }else{
+                      that.result += that.arrayAgo[indexAgo]+"="+str;
+                    }
                   }else{
-                    that.result += str+"\n";
+                    that.result += str;
                   }
                   indexAgo++;
                 });
@@ -292,6 +414,8 @@ export default {
             //   },
             //   success: function (data) {
             //     that.toArray(data.translation[0]).map((item,index1)=>{
+            //       item = item.replace(/&aaa&/g, "\\n");
+            //       item = item.replace(/&bbb&/g, " ");
             //       that.result += that.arrayAgo[indexAgo]+"="+item+"\n";
             //       indexAgo++;
             //     });
@@ -326,9 +450,43 @@ export default {
       array.filter((res, index) => {
         if(res.indexOf("=")!=-1){
           var text = res.split("=")[0];
-          var text1 = res.split("=")[1];
-          that.arrayAgo.push(text);
-          that.arrayAfter.push(text1);
+          var text1="";
+          if(res.split("=")[1]!=''&&res.split("=")[1]!=null){
+            var arry_text = res.split("=");
+            arry_text.map((item,index)=>{
+              if(index==1){
+                text1 = item;
+              }else if(index>1){
+                text1 += "="+item;
+              }
+            })
+            // text1 = res.split("=")[1];
+            text1 = text1.replace(/\\n/g, "&a&");
+            text1 = text1.replace(/。/g, "&c&");
+            text1 = text1.replace(/</g, "&d&");
+            text1 = text1.replace(/>/g, "&e&");
+            text1 = text1.replace(/class/g, "&f&");
+            text1 = text1.replace(/\//g, "&g&");
+            text1 = text1.replace(/\./g, "&h&");
+            text1 = text1.replace(/\:/g, "&i&");
+            text1 = text1.replace(/\,/g, "&j&");
+            text1 = text1.replace(/\，/g, "&k&");
+            text1 = text1.replace(/\；/g, "&l&");
+            text1 = text1.replace(/\;/g, "&m&");
+            text1 = text1.replace(/\？/g, "&n&");
+            text1 = text1.replace(/\?/g, "&o&");
+            text1 = text1.replace(/\！/g, "&p&");
+            text1 = text1.replace(/\!/g, "&q&");
+          }else{
+            text1 = "&bbb&";
+          }
+          if(text1.length>=$("#exampleFormControlSelectNum").val()){
+            that.arrayAgo_no.push(text);
+            that.arrayAfter_no.push(text1);
+          }else{
+            that.arrayAgo.push(text);
+            that.arrayAfter.push(text1);
+          }
         }
       });
     }

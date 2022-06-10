@@ -112,5 +112,14 @@ export default {
         //         // pathRewrite: { '^/translate': '/' }
         //     }
         // ],
+        // [
+        //     '/translate_a/single',
+        //     {
+        //         target: 'https://translate.googleapis.com',
+        //         // target: 'http://192.168.20.114:8080',
+        //         changeOrigin: true,
+        //         // pathRewrite: { '^/translate': '/' }
+        //     }
+        // ],
     ]
 }
