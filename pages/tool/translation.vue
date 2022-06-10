@@ -323,7 +323,7 @@ export default {
               url: 'http://39.105.43.110:304/translate_a/single',
               // url: '/translate_a/single',
               type: 'get',
-              contentType: "application/json",
+              // contentType: "application/json",
               data: {
                   client: "gtx",
                   dt: "t",
