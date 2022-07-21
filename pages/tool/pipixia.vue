@@ -179,6 +179,7 @@ export default {
               type:"success",
               message:"解析成功"
             })
+            this.tiktokText = '';
           }
         });
       } else {
