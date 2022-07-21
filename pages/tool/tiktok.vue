@@ -53,13 +53,13 @@
               <button
                 v-if="yulanStatus"
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-sm btn-outline-primary"
                 @click="yulan()"
               >预览</button>
               <button
                 v-if="xiazaiStatus"
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-sm btn-outline-success"
                 @click="xiazai()"
               >下载</button>
             </div>
@@ -72,16 +72,17 @@
       title="预览"
       :visible.sync="dialogVideoStatus"
       width="300px"
+      :destroy-on-close="true"
     >
 
       <video
         controls="controls"
         width="100%"
         height="100%"
-        autoplay="autoplay"
         volume="1"
         id="myVideo"
         loop="loop"
+        v-if="videoStatus"
       >
         <source
           id="media_src"
@@ -119,6 +120,7 @@ export default {
       xiazaiStatus: false,
       yulanStatus: false,
       dialogVideoStatus: false,
+      videoStatus:false,
     };
   },
   head:{
@@ -131,19 +133,51 @@ export default {
   mounted: function () {},
 
   methods: {
+    getCurrentTime() {
+      var date = new Date();//当前时间
+      var year = date.getFullYear() //年
+      var month = this.repair(date.getMonth() + 1);//月
+      var day = this.repair(date.getDate());//日
+      var hour = this.repair(date.getHours());//时
+      var minute = this.repair(date.getMinutes());//分
+      var second = this.repair(date.getSeconds());//秒
+      
+      //当前时间 
+      var curTime = year + "-" + month + "-" + day
+              + "-" + hour + "-" + minute + "-" + second;
+      return curTime;
+    },
+ 
+    //若是小于10就加个0
+ 
+    repair(i){
+      if (i >= 0 && i <= 9) {
+          return "0" + i;
+      } else {
+          return i;
+      }
+    },
     yulan() {
+      this.videoStatus = true;
       this.dialogVideoStatus = true;
     },
     xiazai() {
       this.start_download(this.videoUrl);
     },
     getTiktokLink() {
+      this.xiazaiStatus = false;
+      this.yulanStatus = false;
+      this.videoStatus = false;
       if (this.tiktokText) {
         api.getTiktok(this.tiktokText).then((res) => {
           if (res.code == 200) {
             this.videoUrl = res.videoUrl;
             this.xiazaiStatus = true;
             this.yulanStatus = true;
+            Message({
+              type:"success",
+              message:"解析成功"
+            })
           }
         });
       } else {
@@ -163,7 +197,7 @@ export default {
         window.createObjectURL;
       let a = document.createElement("a");
       a.href = getBlobURL(blob);
-      a.setAttribute("download", "xxx.mp4");
+      a.setAttribute("download",this.getCurrentTime()+".mp4");
       a.click();
     },
     start_download(url) {
