@@ -61,6 +61,7 @@
                 type="button"
                 class="btn btn-sm btn-outline-success"
                 @click="xiazai()"
+                :disabled="xiazaiBtnStatus"
               >下载</button>
             </div>
           </div>
@@ -98,6 +99,7 @@
         <el-button
           type="primary"
           @click="xiazai()"
+          :disabled="xiazaiBtnStatus"
         >下 载</el-button>
       </span>
     </el-dialog>
@@ -121,6 +123,7 @@ export default {
       yulanStatus: false,
       dialogVideoStatus: false,
       videoStatus:false,
+      xiazaiBtnStatus:false
     };
   },
 
@@ -203,13 +206,23 @@ export default {
       a.click();
     },
     start_download(url) {
+      Message({
+        type: "success",
+        message: "开始下载，请稍等",
+      });
+      this.xiazaiBtnStatus = true;
       var that = this;
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url);
       xhr.responseType = "blob";
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
+          Message({
+            type: "success",
+            message: "请保存到本地",
+          });
           that.download(xhr.response);
+          that.xiazaiBtnStatus = false;
         }
       };
       xhr.send(null);
