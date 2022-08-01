@@ -123,7 +123,8 @@ export default {
       yulanStatus: false,
       dialogVideoStatus: false,
       videoStatus:false,
-      xiazaiBtnStatus:false
+      xiazaiBtnStatus:false,
+      closeMesssage:''
     };
   },
 
@@ -180,7 +181,8 @@ export default {
             this.yulanStatus = true;
             Message({
               type:"success",
-              message:"解析成功"
+              message:"解析成功",
+              showClose:true
             })
             this.tiktokText = '';
           }
@@ -189,6 +191,7 @@ export default {
         Message({
           type: "error",
           message: "解析地址不能为空！",
+          showClose:true
         });
       }
     },
@@ -206,20 +209,30 @@ export default {
       a.click();
     },
     start_download(url) {
-      Message({
+      this.closeMesssage = Message({
         type: "success",
         message: "开始下载，请稍等",
+        duration:0,
+        showClose:true
       });
       this.xiazaiBtnStatus = true;
       var that = this;
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url);
       xhr.responseType = "blob";
+      xhr.onprogress = function (event) {
+          if (event.lengthComputable) {
+            var loaded = parseInt(event.loaded / event.total * 100) + "%";
+            that.closeMesssage.message="正在下载："+loaded;
+          }
+      }
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
+          that.closeMesssage.close();
           Message({
             type: "success",
-            message: "请保存到本地",
+            message: "已下载完成，请保存到本地",
+            showClose:true
           });
           that.download(xhr.response);
           that.xiazaiBtnStatus = false;
