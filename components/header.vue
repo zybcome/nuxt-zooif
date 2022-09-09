@@ -113,6 +113,10 @@
               aria-labelledby="navbarDropdown-user"
             >
               <nuxt-link
+                to="/tool/touziGame"
+                class="dropdown-item"
+              >骰子游戏</nuxt-link>
+              <nuxt-link
                 to="/tool/tiktok"
                 class="dropdown-item"
               >抖音去水印</nuxt-link>
