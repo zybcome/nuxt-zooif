@@ -292,7 +292,7 @@ export default {
 
             // // 有道免费翻译
             // $.ajax({
-            //   url: 'http://39.105.43.110:304/translate',
+            //   url: 'http://198.13.33.140:810/translate',
             //   // url: '/translate',
             //   type: 'get',
             //   data: {
@@ -325,7 +325,7 @@ export default {
 
             // 谷歌免费翻译
             $.ajax({
-              url: 'http://39.105.43.110:304/translate_a/single',
+              url: 'http://198.13.33.140:810/translate_a/single',
               // url: '/translate_a/single',
               type: 'get',
               // contentType: "application/json",

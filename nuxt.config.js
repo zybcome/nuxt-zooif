@@ -105,7 +105,7 @@ export default {
         // [
         //     '/translate',
         //     {
-        //         target: 'http://39.105.43.110:304',
+        //         target: 'http://198.13.33.140:810',
         //         // target: 'http://192.168.20.114:8080',
         //         changeOrigin: true,
         //         // pathRewrite: { '^/translate': '/' }
