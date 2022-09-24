@@ -128,6 +128,7 @@ export default {
     };
   },
   head:{
+    title:"抖音去水印 - ZooIf",
     meta: [
         { name: 'referrer', content: 'never' },
     ],

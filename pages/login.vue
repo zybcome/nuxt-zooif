@@ -115,6 +115,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '登录 - ZooIf',
+    }
+  },
   data: function () {
     return {
       encrypt: "",

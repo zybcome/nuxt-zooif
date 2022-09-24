@@ -127,8 +127,8 @@ export default {
       closeMesssage:''
     };
   },
-
   head:{
+    title: '皮皮虾去水印 - ZooIf',
     meta: [
         { name: 'referrer', content: 'never' },
     ],

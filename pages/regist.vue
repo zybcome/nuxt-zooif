@@ -163,6 +163,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '注册 - ZooIf',
+    }
+  },
   data: function () {
     const equalToPassword = (rule, value, callback) => {
       if (this.registerForm.password !== value) {

@@ -151,6 +151,11 @@ import api from "~/plugins/api";
 import { Message } from "element-ui";
 export default {
   components: {},
+  head() {
+    return {
+      title: '翻译工具 - ZooIf',
+    }
+  },
   data: function () {
     return {
       result: "",

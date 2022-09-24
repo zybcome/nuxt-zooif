@@ -48,6 +48,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '爱的箴言 - ZooIf',
+    }
+  },
   data: function () {
     return {
       textList: {},

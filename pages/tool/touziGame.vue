@@ -77,6 +77,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '骰子游戏 - ZooIf',
+    }
+  },
   data: function () {
     return {
       touziNumber:'',

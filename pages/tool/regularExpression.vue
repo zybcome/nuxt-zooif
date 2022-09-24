@@ -76,6 +76,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '正则验证 - ZooIf',
+    }
+  },
   data: function () {
     return {
       reg: "",

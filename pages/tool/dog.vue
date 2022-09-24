@@ -48,6 +48,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '舔狗日记 - ZooIf',
+    }
+  },
   data: function () {
     return {
       textList: {},

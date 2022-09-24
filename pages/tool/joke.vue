@@ -50,6 +50,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '笑话大全 - ZooIf',
+    }
+  },
   data: function () {
     return {
       textList: [],

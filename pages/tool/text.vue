@@ -106,6 +106,11 @@ import api from "~/plugins/api";
 import { Message } from "element-ui";
 export default {
   components: {},
+  head() {
+    return {
+      title: '文字转换工具 - ZooIf',
+    }
+  },
   data: function () {
     return {
     };},

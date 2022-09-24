@@ -42,7 +42,9 @@ export default {
     };
   },
   head() {
-    return {};
+    return {
+      title: '首页 - ZooIf',
+    }
   },
   beforeMount: function () {},
   mounted: function () {

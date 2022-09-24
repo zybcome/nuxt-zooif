@@ -65,6 +65,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '二维码生成器 - ZooIf',
+    }
+  },
   data: function () {
     return {
       qrCodeText: "",

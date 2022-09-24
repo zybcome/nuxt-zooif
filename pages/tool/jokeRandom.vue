@@ -50,6 +50,11 @@ export default {
   components: {
     // VFooter,
   },
+  head() {
+    return {
+      title: '笑话 - ZooIf',
+    }
+  },
   data: function () {
     return {
       textList: {},
