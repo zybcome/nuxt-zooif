@@ -245,7 +245,7 @@ export default {
         var to = $("#exampleFormControlSelect2").val();
         var vocabId =  '2A732D8863284E69BA7399AACA7B962C';
         var item = that.reArry(that.arrayAfter);
-        console.log(item)
+        // console.log(item)
         var fewaf = [];
         item.filter((items,index) => {
           var str = "";
@@ -325,7 +325,7 @@ export default {
 
             // 谷歌免费翻译
             $.ajax({
-              url: 'http://198.13.33.140:810/translate_a/single',
+              url: 'http://198.13.33.140:304/translate_a/single',
               // url: '/translate_a/single',
               type: 'get',
               // contentType: "application/json",
