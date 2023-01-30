@@ -325,7 +325,7 @@ export default {
 
             // 谷歌免费翻译
             $.ajax({
-              url: 'http://198.13.33.140:304/translate_a/single',
+              url: 'http://144.202.13.15:304/translate_a/single',
               // url: '/translate_a/single',
               type: 'get',
               // contentType: "application/json",

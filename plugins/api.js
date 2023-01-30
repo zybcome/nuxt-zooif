@@ -3,9 +3,9 @@ import {
   post
 } from '@/plugins/axios'
 const admin = "";
-// const http = "http://198.13.33.140:810"
+const http = "http://144.202.13.15:810"
 const alapi = "https://v2.alapi.cn/api"
-const http = "http://127.0.0.1:810"
+// const http = "http://127.0.0.1:810"
 export default {
   ServerDomain: '',
   login: data => post(http+admin + '/login', data),
