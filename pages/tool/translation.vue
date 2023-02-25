@@ -325,7 +325,7 @@ export default {
 
             // 谷歌免费翻译
             $.ajax({
-              url: 'http://api.zooif.com/translate_a/single',
+              url: 'https://api.zooif.com/translate_a/single',
               // url: '/translate_a/single',
               type: 'get',
               // contentType: "application/json",

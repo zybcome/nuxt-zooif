@@ -3,7 +3,7 @@ import {
   post
 } from '@/plugins/axios'
 const admin = "";
-const http = "http://api.zooif.com"
+const http = "https://api.zooif.com"
 const alapi = "https://v2.alapi.cn/api"
 // const http = "http://127.0.0.1:810"
 export default {

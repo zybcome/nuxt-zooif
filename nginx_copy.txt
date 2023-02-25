@@ -61,20 +61,7 @@ http {
     server {
       listen 80;
       server_name zooif.com; #localhost修改为证书绑定的域名
-
-		charset utf-8;
-
-        location / {
-            root   /data/dev/dist;
-			try_files $uri $uri/ /index.html;
-            index  index.html index.htm;
-        }
-
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   html;
-        }
-      # rewrite ^(.*)$ https://${server_name}$1 permanent; #设置http自动转发https
+      rewrite ^(.*)$ https://${server_name}$1 permanent; #设置http自动转发https
 
     }
 
@@ -103,6 +90,17 @@ http {
     server {
         listen       80;
         server_name  layui.zooif.com;
+        rewrite ^(.*)$ https://${server_name}$1 permanent; #设置http自动转发https
+
+    }
+
+    server{
+    listen 443 ssl;#设置SSL功能
+    server_name layui.zooif.com;  #localhost修改为证书绑定的域名
+    ssl_certificate cert/layui_zooif_com_integrated.crt;   #证书的文件名
+    ssl_certificate_key cert/layui_zooif_com.key;   #证书的密钥文件名
+
+
 		charset utf-8;
 
         location / {
@@ -115,16 +113,26 @@ http {
         location = /50x.html {
             root   html;
         }
-
     }
+
+
     server {
         listen       80;
         server_name  by.zooif.com;
-		charset utf-8;
+        rewrite ^(.*)$ https://${server_name}$1 permanent; #设置http自动转发https
+
+    }
+
+    server{
+      listen 443 ssl;#设置SSL功能
+      server_name by.zooif.com;  #localhost修改为证书绑定的域名
+      ssl_certificate cert/layui_zooif_com_integrated.crt;   #证书的文件名
+      ssl_certificate_key cert/layui_zooif_com.key;   #证书的密钥文件名
+      charset utf-8;
 
         location / {
             root   /data/h5;
-			try_files $uri $uri/ /index.html;
+            try_files $uri $uri/ /index.html;
             index  index.html index.htm;
         }
 
@@ -132,11 +140,19 @@ http {
         location = /50x.html {
             root   html;
         }
-
     }
     server {
         listen       80;
         server_name  api.zooif.com;
+        rewrite ^(.*)$ https://${server_name}$1 permanent; #设置http自动转发https
+
+    }
+
+    server{
+      listen 443 ssl;#设置SSL功能
+      server_name api.zooif.com;  #localhost修改为证书绑定的域名
+      ssl_certificate cert/layui_zooif_com_integrated.crt;   #证书的文件名
+      ssl_certificate_key cert/layui_zooif_com.key;   #证书的密钥文件名
 		charset utf-8;
 
         location /{
@@ -155,7 +171,6 @@ http {
         location = /50x.html {
             root   html;
         }
-
     }
 
 
