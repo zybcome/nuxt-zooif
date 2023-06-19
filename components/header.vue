@@ -140,6 +140,10 @@
                 to="/tool/translation"
                 class="dropdown-item"
               >翻译</nuxt-link>
+              <nuxt-link
+                to="/tool/chatGpt"
+                class="dropdown-item"
+              >chatGpt</nuxt-link>
             </div>
           </li>
           <img

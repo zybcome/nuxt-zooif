@@ -12,6 +12,7 @@ export default {
   getCodeImg: data => get(http+admin + '/captchaImage', data),
   getInfo: data => get(http+admin + '/getInfo', data),
   getTiktok: data => post(http+admin + '/system/tiktok', data),
+  getChatGpt: data => post(http+admin + '/system/chatGpt', data),
   getPipixia: data => post(http+admin + '/system/pipixia', data),
   getQrCode: data => post(http+admin + '/system/QrCode', data),
   logout: data => post(http+admin + '/logout', data),
