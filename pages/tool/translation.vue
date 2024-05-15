@@ -121,6 +121,7 @@
               <option value="id">印尼语</option>
               <option value="ar">阿拉伯语</option>
               <option value="nl">荷兰语</option>
+               <option value="zh-HK">中文-繁体</option>
             </select>
             <textarea
               class="input_textarea"
@@ -136,6 +137,21 @@
               <button
                 class="btn btn-primary btn-sm" @click="translate('auto')"
               >翻译</button>
+              <button
+                class="btn btn-primary btn-sm" @click="translateAuto('zh-HK')"
+              >i18n繁体</button>
+              <button
+                class="btn btn-primary btn-sm" @click="translateAuto('en')"
+              >i18n英语</button>
+              <button
+                class="btn btn-primary btn-sm" @click="translateAuto('ko')"
+              >i18n韩语</button>
+              <button
+                class="btn btn-primary btn-sm" @click="translateAuto('ja')"
+              >i18n日语</button>
+              <button
+                class="btn btn-primary btn-sm" @click="translateAuto('de')"
+              >i18n德语</button>
             </div>
           </div>
         </div>
@@ -215,6 +231,12 @@ export default {
       });
       return returnArry;
     },
+
+    translateAuto(language){
+      $("#exampleFormControlSelect2").val(language);
+      this.translate('i18n')
+    },
+
     translate(type) {
       if($("#textarea_val1").val()==""){
         Message({
