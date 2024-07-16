@@ -107,6 +107,7 @@ export default {
           skipEmptyLines: true,
         });
         this.tableData = data;
+        console.log(this.tableData)
       };
       reader.readAsText(file.raw);
     },
@@ -114,6 +115,7 @@ export default {
       this.resData = []
       const seen = new Set();
       this.hhIdData = this.hhId.split('\n');
+      console.log(this.hhIdData)
       this.hhIdData.map(hhId=>{
         this.tableData.map(spId=>{
           if(spId["SKUBM"].indexOf(hhId)!=-1){
