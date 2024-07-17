@@ -127,7 +127,7 @@ export default {
         })
       })
       console.log(seen)
-      this.resData = seen.join('\n')
+      this.resData = seen.join('\n')+'\n'+seen.join(',')
       console.log(this.resData)
     }
   },
