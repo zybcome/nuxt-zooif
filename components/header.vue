@@ -117,14 +117,6 @@
                 class="dropdown-item"
               >骰子游戏</nuxt-link>
               <nuxt-link
-                to="/tool/tiktok"
-                class="dropdown-item"
-              >抖音去水印</nuxt-link>
-              <nuxt-link
-                to="/tool/pipixia"
-                class="dropdown-item"
-              >皮皮虾去水印</nuxt-link>
-              <nuxt-link
                 to="/tool/qrCode"
                 class="dropdown-item"
               >二维码生成器</nuxt-link>
