@@ -60,6 +60,18 @@
           >
             <a
               class="nav-link"
+              href="http://117.72.77.209"
+              target="_blank"
+            >
+              看电影
+            </a>
+          </li>
+          <li
+            class="nav-item"
+            data-menuanchor="firstPage"
+          >
+            <a
+              class="nav-link"
               href="http://zooif.com/avatar"
               target="_blank"
             >
