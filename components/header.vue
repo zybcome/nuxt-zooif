@@ -145,10 +145,6 @@
                 class="dropdown-item"
               >翻译</nuxt-link>
               <nuxt-link
-                to="/tool/chatGpt"
-                class="dropdown-item"
-              >chatGpt</nuxt-link>
-              <nuxt-link
                 to="/tool/csvres"
                 class="dropdown-item"
               >表格去重</nuxt-link>
