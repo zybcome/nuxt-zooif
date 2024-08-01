@@ -147,7 +147,7 @@
                 class="btn btn-primary btn-sm" @click="translateAuto('kor')"
               >i18n韩语</button>
               <button
-                class="btn btn-primary btn-sm" @click="translateAuto('ja')"
+                class="btn btn-primary btn-sm" @click="translateAuto('jp')"
               >i18n日语</button>
               <button
                 class="btn btn-primary btn-sm" @click="translateAuto('de')"
