@@ -48,7 +48,7 @@
           >
             <a
               class="nav-link"
-              href="http://layui.zooif.com"
+              href="http://117.72.77.209:1001"
               target="_blank"
             >
               layui
@@ -72,7 +72,7 @@
           >
             <a
               class="nav-link"
-              href="http://zooif.com/avatar"
+              href="http://117.72.77.209:1008/avatar"
               target="_blank"
             >
               头像生成器

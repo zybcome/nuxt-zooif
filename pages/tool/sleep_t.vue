@@ -2,7 +2,7 @@
 <!--  -->
 <template>
   <div class="whois_all">
-    
+
     <!-- start banner Area -->
     <section
       class="banner-area relative"
@@ -146,15 +146,15 @@ export default {
       var hour = this.repair(date.getHours());//时
       var minute = this.repair(date.getMinutes());//分
       var second = this.repair(date.getSeconds());//秒
-      
-      //当前时间 
+
+      //当前时间
       var curTime = year + "-" + month + "-" + day
               + "-" + hour + "-" + minute + "-" + second;
       return curTime;
     },
- 
+
     //若是小于10就加个0
- 
+
     repair(i){
       if (i >= 0 && i <= 9) {
           return "0" + i;

@@ -39,7 +39,7 @@
             </select> -->
             <!-- 谷歌免费翻译 -->
             <select class="form-control" id="exampleFormControlSelect1" disabled="disabled">
-              <option value="zh-CN">中文</option>
+              <option value="auto">自动</option>
               <!-- <option value="en">英语</option>
               <option value="ko">韩语</option>
               <option value="ja">日语</option>
@@ -109,19 +109,19 @@
             <select class="form-control" id="exampleFormControlSelect2">
               <!-- <option value="zh-CN">中文</option> -->
               <option value="en">英语</option>
-              <option value="ko">韩语</option>
-              <option value="ja">日语</option>
-              <option value="fr">法语</option>
+              <option value="kor">韩语</option>
+              <option value="jp">日语</option>
+              <option value="fra">法语</option>
               <option value="ru">俄语</option>
               <option value="de">德语</option>
-              <option value="es">西班牙语</option>
+              <option value="spa">西班牙语</option>
               <option value="pt">葡萄牙语</option>
               <option value="it">意大利语</option>
-              <option value="vi">越南语</option>
+              <option value="vie">越南语</option>
               <option value="id">印尼语</option>
-              <option value="ar">阿拉伯语</option>
+              <option value="ara">阿拉伯语</option>
               <option value="nl">荷兰语</option>
-               <option value="zh-HK">中文-繁体</option>
+               <option value="cht">中文-繁体</option>
             </select>
             <textarea
               class="input_textarea"
@@ -138,13 +138,13 @@
                 class="btn btn-primary btn-sm" @click="translate('auto')"
               >翻译</button>
               <button
-                class="btn btn-primary btn-sm" @click="translateAuto('zh-HK')"
+                class="btn btn-primary btn-sm" @click="translateAuto('cht')"
               >i18n繁体</button>
               <button
                 class="btn btn-primary btn-sm" @click="translateAuto('en')"
               >i18n英语</button>
               <button
-                class="btn btn-primary btn-sm" @click="translateAuto('ko')"
+                class="btn btn-primary btn-sm" @click="translateAuto('kor')"
               >i18n韩语</button>
               <button
                 class="btn btn-primary btn-sm" @click="translateAuto('ja')"
@@ -170,6 +170,13 @@ export default {
   head() {
     return {
       title: '翻译工具 - ZooIf',
+      script: [
+        {
+          charset: 'utf-8',
+          src: '/js/md5.js?v=20240801',
+          body: true,
+        },
+      ],
     }
   },
   data: function () {
@@ -312,6 +319,80 @@ export default {
 
 
 
+
+
+          // 百度翻译
+            var appid = '20240801002113865';
+            var key = 'Fbq6LZlQU3yKygHni5s8';
+            var salt = (new Date).getTime();
+            // var query = 'apple';
+// 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+//             var from = 'en';
+//             var to = 'zh';
+            var str1 = appid + query + salt +key;
+            var sign = MD5(str1);
+            $.ajax({
+              url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+              type: 'get',
+              dataType: 'jsonp',
+              data: {
+                q: query,
+                appid: appid,
+                salt: salt,
+                from: from,
+                to: to,
+                sign: sign
+              },
+              success: function (data) {
+                    data.trans_result.map((items,index1)=>{
+                      let str = items.dst;
+                      str = str.replace(/&a&/g, "\\n");
+                      str = str.replace(/&b&/g, " ");
+                      str = str.replace(/&c&/g, "。");
+                      str = str.replace(/&d&/g, "<");
+                      str = str.replace(/&e&/g, ">");
+                      str = str.replace(/&f&/g, "class");
+                      str = str.replace(/&g&/g, "/");
+                      str = str.replace(/&h&/g, ".");
+                      str = str.replace(/&i&/g, ":");
+                      str = str.replace(/&j&/g, ",");
+                      str = str.replace(/&k&/g, "，");
+                      str = str.replace(/&l&/g, "；");
+                      str = str.replace(/&m&/g, ";");
+                      str = str.replace(/&n&/g, "？");
+                      str = str.replace(/&o&/g, "?");
+                      str = str.replace(/&p&/g, "！");
+                      str = str.replace(/&q&/g, "!");
+                      if(type=="i18n"){
+                        if(str.indexOf("\n")==-1){
+                          that.result += that.arrayAgo[indexAgo]+"="+str+"\n";
+                        }else{
+                          that.result += that.arrayAgo[indexAgo]+"="+str;
+                        }
+                      }else{
+                        that.result += str;
+                      }
+                      indexAgo++;
+                    });
+                    ArrayXiabiao++;
+                    if(ArrayXiabiao<=item.length-1){
+                      ajax_();
+                    }
+              }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
             // // 有道免费翻译
             // $.ajax({
             //   url: 'http://198.13.33.140:810/translate',
@@ -345,58 +426,58 @@ export default {
             // });
 
 
-            // 谷歌免费翻译
-            $.ajax({
-              url: 'http://api.zooif.com/translate_a/single',
-              // url: '/translate_a/single',
-              type: 'get',
-              // contentType: "application/json",
-              data: {
-                  client: "gtx",
-                  dt: "t",
-                  dj: 1,
-                  ie: "UTF-8",
-                  sl: from,
-                  tl: to,
-                  q: query,
-              },
-              success: function (data) {
-                data.sentences.map((items,index1)=>{
-                  let str = items.trans;
-                  str = str.replace(/&a&/g, "\\n");
-                  str = str.replace(/&b&/g, " ");
-                  str = str.replace(/&c&/g, "。");
-                  str = str.replace(/&d&/g, "<");
-                  str = str.replace(/&e&/g, ">");
-                  str = str.replace(/&f&/g, "class");
-                  str = str.replace(/&g&/g, "/");
-                  str = str.replace(/&h&/g, ".");
-                  str = str.replace(/&i&/g, ":");
-                  str = str.replace(/&j&/g, ",");
-                  str = str.replace(/&k&/g, "，");
-                  str = str.replace(/&l&/g, "；");
-                  str = str.replace(/&m&/g, ";");
-                  str = str.replace(/&n&/g, "？");
-                  str = str.replace(/&o&/g, "?");
-                  str = str.replace(/&p&/g, "！");
-                  str = str.replace(/&q&/g, "!");
-                  if(type=="i18n"){
-                    if(str.indexOf("\n")==-1){
-                      that.result += that.arrayAgo[indexAgo]+"="+str+"\n";
-                    }else{
-                      that.result += that.arrayAgo[indexAgo]+"="+str;
-                    }
-                  }else{
-                    that.result += str;
-                  }
-                  indexAgo++;
-                });
-                ArrayXiabiao++;
-                if(ArrayXiabiao<=item.length-1){
-                  ajax_();
-                }
-              }
-            });
+            // // 谷歌免费翻译
+            // $.ajax({
+            //   url: 'http://117.72.77.209:1005/translate_a/single',
+            //   // url: '/translate_a/single',
+            //   type: 'get',
+            //   // contentType: "application/json",
+            //   data: {
+            //       client: "gtx",
+            //       dt: "t",
+            //       dj: 1,
+            //       ie: "UTF-8",
+            //       sl: from,
+            //       tl: to,
+            //       q: query,
+            //   },
+            //   success: function (data) {
+            //     data.sentences.map((items,index1)=>{
+            //       let str = items.trans;
+            //       str = str.replace(/&a&/g, "\\n");
+            //       str = str.replace(/&b&/g, " ");
+            //       str = str.replace(/&c&/g, "。");
+            //       str = str.replace(/&d&/g, "<");
+            //       str = str.replace(/&e&/g, ">");
+            //       str = str.replace(/&f&/g, "class");
+            //       str = str.replace(/&g&/g, "/");
+            //       str = str.replace(/&h&/g, ".");
+            //       str = str.replace(/&i&/g, ":");
+            //       str = str.replace(/&j&/g, ",");
+            //       str = str.replace(/&k&/g, "，");
+            //       str = str.replace(/&l&/g, "；");
+            //       str = str.replace(/&m&/g, ";");
+            //       str = str.replace(/&n&/g, "？");
+            //       str = str.replace(/&o&/g, "?");
+            //       str = str.replace(/&p&/g, "！");
+            //       str = str.replace(/&q&/g, "!");
+            //       if(type=="i18n"){
+            //         if(str.indexOf("\n")==-1){
+            //           that.result += that.arrayAgo[indexAgo]+"="+str+"\n";
+            //         }else{
+            //           that.result += that.arrayAgo[indexAgo]+"="+str;
+            //         }
+            //       }else{
+            //         that.result += str;
+            //       }
+            //       indexAgo++;
+            //     });
+            //     ArrayXiabiao++;
+            //     if(ArrayXiabiao<=item.length-1){
+            //       ajax_();
+            //     }
+            //   }
+            // });
 
 
 
