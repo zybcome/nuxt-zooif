@@ -20,10 +20,10 @@
             <p class="text-white">
               提供各种实用工具 <br> 欢迎大家交流讨论
             </p>
-            <nuxt-link
-              :to="openPath"
+            <a
+              :href="openPath"
               class="primary-btn header-btn text-uppercase"
-            >开启</nuxt-link>
+            >开启</a>
           </div>
         </div>
       </div>
@@ -49,9 +49,9 @@ export default {
   beforeMount: function () {},
   mounted: function () {
     if (getToken()) {
-      this.openPath="/tool/tiktok"
+      this.openPath="http://117.72.77.209:1008/"
     } else {
-      this.openPath="/login"
+      this.openPath="http://117.72.77.209:1008/login"
     }
   },
   methods: {},

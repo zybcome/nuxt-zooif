@@ -4,9 +4,9 @@
       class="navbar navbar-dark bg-dark navbar-expand-lg"
       id="navBg"
     >
-      <nuxt-link
+      <a
         class="navbar-brand"
-        to="/"
+        href="http://117.72.77.209:1008/"
         style="font-size:24px;font-weight: bold;"
       >
         ZooIf
@@ -14,7 +14,7 @@
           src="@/static/img/logo.png"
           alt=""
         /> -->
-      </nuxt-link>
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -35,12 +35,12 @@
             class="nav-item"
             data-menuanchor="firstPage"
           >
-            <nuxt-link
+            <a
               class="nav-link"
-              to="/"
+              href="http://117.72.77.209:1008/"
             >
               首页
-            </nuxt-link>
+            </a>
           </li>
           <li
             class="nav-item"
@@ -86,28 +86,52 @@
               role="button"
               data-toggle="dropdown"
               aria-expanded="false"
+            >图片欣赏
+            </nuxt-link>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdown-user"
+            >
+              <a
+                href="http://117.72.77.209:1008/imageList/index.html"
+                class="dropdown-item"
+              >壁纸</a>
+              <a
+                href="http://117.72.77.209:1008/imageList/animation.html"
+                class="dropdown-item"
+              >动效</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <nuxt-link
+              class="nav-link dropdown-toggle"
+              to=""
+              id="navbarDropdown-user"
+              role="button"
+              data-toggle="dropdown"
+              aria-expanded="false"
             >趣味
             </nuxt-link>
             <div
               class="dropdown-menu"
               aria-labelledby="navbarDropdown-user"
             >
-              <nuxt-link
-                to="/tool/joke"
+              <a
+                href="http://117.72.77.209:1008/tool/joke"
                 class="dropdown-item"
-              >笑话大全</nuxt-link>
-              <nuxt-link
-                to="/tool/jokeRandom"
+              >笑话大全</a>
+              <a
+                href="http://117.72.77.209:1008/tool/jokeRandom"
                 class="dropdown-item"
-              >笑话随机</nuxt-link>
-              <nuxt-link
-                to="/tool/qinghua"
+              >笑话随机</a>
+              <a
+                href="http://117.72.77.209:1008/tool/qinghua"
                 class="dropdown-item"
-              >爱的箴言</nuxt-link>
-              <nuxt-link
-                to="/tool/dog"
+              >爱的箴言</a>
+              <a
+                href="http://117.72.77.209:1008/tool/dog"
                 class="dropdown-item"
-              >舔狗日记</nuxt-link>
+              >舔狗日记</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -124,30 +148,30 @@
               class="dropdown-menu"
               aria-labelledby="navbarDropdown-user"
             >
-              <nuxt-link
-                to="/tool/touziGame"
+              <a
+                href="http://117.72.77.209:1008/tool/touziGame"
                 class="dropdown-item"
-              >骰子游戏</nuxt-link>
-              <nuxt-link
-                to="/tool/qrCode"
+              >骰子游戏</a>
+              <a
+                href="http://117.72.77.209:1008/tool/qrCode"
                 class="dropdown-item"
-              >二维码生成器</nuxt-link>
-              <nuxt-link
-                to="/tool/text"
+              >二维码生成器</a>
+              <a
+                href="http://117.72.77.209:1008/tool/text"
                 class="dropdown-item"
-              >国际化转换</nuxt-link>
-              <nuxt-link
-                to="/tool/regularExpression"
+              >国际化转换</a>
+              <a
+                href="http://117.72.77.209:1008/tool/regularExpression"
                 class="dropdown-item"
-              >正则验证</nuxt-link>
-              <nuxt-link
-                to="/tool/translation"
+              >正则验证</a>
+              <a
+                href="http://117.72.77.209:1008/tool/translation"
                 class="dropdown-item"
-              >翻译</nuxt-link>
-              <nuxt-link
-                to="/tool/csvres"
+              >翻译</a>
+              <a
+                href="http://117.72.77.209:1008/tool/csvres"
                 class="dropdown-item"
-              >表格去重</nuxt-link>
+              >表格去重</a>
             </div>
           </li>
           <img
@@ -156,11 +180,11 @@
             alt=""
           />
           <li class="nav-item dropdown">
-            <nuxt-link
+            <a
               v-show="!token"
               class="nav-link link_border"
-              to="/login"
-            >登录</nuxt-link>
+              href="http://117.72.77.209:1008/login"
+            >登录</a>
             <nuxt-link
               v-show="token"
               class="nav-link dropdown-toggle"
