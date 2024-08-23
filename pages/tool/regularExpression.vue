@@ -26,12 +26,20 @@
         <p class="whois_search_p">
           正则验证
         </p>
+        <input
+          type="text"
+          class="form-control whois_search_input"
+          style="width: 100%;margin-bottom: 10px"
+          v-model="reg"
+          placeholder="请输入正则"
+        />
         <div class="whois_search_div">
           <input
             type="text"
             class="form-control whois_search_input"
             v-model="qrCodeText"
             placeholder="请输入要验证的内容"
+            @keyup.enter="isTest(qrCodeText,reg)"
           />
           <button
             class="whois_search_button"
@@ -42,7 +50,6 @@
             </span>
           </button>
         </div>
-          <p style="text-align: left;">{{regStr}}</p>
       </div>
     </div>
 
@@ -84,7 +91,7 @@ export default {
   data: function () {
     return {
       reg: "",
-      regStr: "请选择操作方式",
+      regStr: "",
       qrCodeText: "",
       qrCodeImg: "",
       // shipinStatus: false,

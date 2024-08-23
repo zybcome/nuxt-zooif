@@ -2,7 +2,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     server: {
-        port: 9986 // default: 3000
+        host: "0.0.0.0",
+        port: 1008 // default: 3000
     },
     head: {
         title: 'ZooIf',
