@@ -34,7 +34,7 @@
                     :on-change="handleChange"
                     accept=".csv"
                   >
-                    <el-button type="primary">点击上传店铺商品表格</el-button>
+                    <el-button type="primary">点击上传表格</el-button>
                   </el-upload>
                   <el-input
                     type="textarea"
@@ -42,7 +42,7 @@
                     placeholder="请输入需下架的货号"
                     v-model="hhId">
                   </el-input>
-                  <el-button type="primary" @click="clickRes">立即获取需下架的商品ID</el-button>
+                  <el-button type="primary" @click="clickRes">立即获取ID</el-button>
                   <el-input
                     type="textarea"
                     :rows="10"
