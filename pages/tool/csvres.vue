@@ -39,7 +39,7 @@
                   <el-input
                     type="textarea"
                     :rows="10"
-                    placeholder="请输入需下架的货号"
+                    placeholder="请输入ID"
                     v-model="hhId">
                   </el-input>
                   <el-button type="primary" @click="clickRes">立即获取ID</el-button>
