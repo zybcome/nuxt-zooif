@@ -20,7 +20,6 @@
         </div>
       </div>
     </section>
-    
     <!-- End banner Area -->
     <div class="whois_search">
       <div class="whois_search_position">
@@ -46,7 +45,7 @@
         </div>
       </div>
     </div>
-    <el-dialog title="骰子游戏" :visible.sync="openDialog" :fullscreen="true" :center="true">
+    <el-dialog title="骰子游戏" custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
    		<div class="wrap_touzi">
         <el-collapse-transition>
           <div id='dice_mask' v-show="showMsak"><el-tag v-show="showMsak">{{showMsakText}}</el-tag></div>
@@ -172,6 +171,9 @@ export default {
 .dice_e{background-position:-5px -876px}
 p#result{text-align:center; font-size:16px}
 p#result span{font-weight:bold; color:#f30; margin:6px}
-#dice_mask{display: flex;align-items: center;justify-content: center;width:100%; height:100%; background:#fff; opacity:0.98; position:absolute; top:0; left:0; z-index:999;border-bottom: 1px solid #333;}
-
+#dice_mask{border-radius: 20px;display: flex;align-items: center;justify-content: center;width:100%; height:100%; background:#0e0e0e; opacity:0.98; position:absolute; top:0; left:0; z-index:999;border-bottom: 1px solid #333;}
+</style>
+<style>
+.dialogClass{background: #000 !important;}
+.dialogClass .el-dialog__title{color: #fff;}
 </style>
