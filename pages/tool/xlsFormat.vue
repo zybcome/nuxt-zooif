@@ -29,22 +29,26 @@
               <ul style="min-height:200px;">
                 <div>
                   <el-upload
+                    ref="upload"
                     action=""
                     :on-change="handleChange"
-                    accept=".xls"
+                    :show-file-list="false"
+                    accept=".xls,.xlsx"
+                    multiple
                   >
-                    <el-button type="primary">上传表格并获取获取格式化后文本</el-button>
+                    <el-button type="primary">上传表格并获取格式化后文本</el-button>
                   </el-upload>
                   <el-input
                     type="textarea"
                     :rows="10"
                     placeholder="获取格式化后文本"
+                    @input="getResDataNum()"
                     v-model="resData">
                   </el-input>
                   <el-input placeholder="请输入内容" v-model="outputName">
                     <template slot="prepend">TXT文件名</template>
                   </el-input>
-                  <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出</el-button>
+                  <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
                 </div>
               </ul>
             </div>
@@ -68,7 +72,7 @@ export default {
   },
   head() {
     return {
-      title: '去重 - ZooIf',
+      title: '表格格式化 - ZooIf',
     }
   },
   data: function () {
@@ -77,14 +81,22 @@ export default {
       hhId:"",
       hhIdData:"",
       resData:"",
-      outputName:this.formatDate(new Date())
+      outputName:this.formatDate(new Date()),
+      resDataNum:0
     };
   },
   computed: {},
-  mounted: function () {},
+  mounted: function () {
+
+  },
   methods: {
+    getResDataNum(){
+      this.resDataNum = this.resData?this.resData.split('\n').filter(line => line.trim() !== '').length+"个":""
+    },
     handleChange(file, fileList) {
+      this.outputName = this.formatDate(new Date())
       const reader = new FileReader();
+      this.resData = ""
       reader.onload = (event) => {
         const csvData = event.target.result;
         const { data, meta } = Papa.parse(csvData, {
@@ -93,7 +105,8 @@ export default {
           quoteChar: "·",
         });
         this.tableData = data;
-        this.resData = this.formatXls(this.tableData)
+        this.resData += this.formatXls(this.tableData)
+        this.getResDataNum()
       };
       reader.readAsText(file.raw);
     },
@@ -106,10 +119,9 @@ export default {
         const firstValue = item[keys[4]];
         const secondValue = item[keys[3]];
         const fourthValue = item[keys[1]];
-        console.log(`${firstValue}-----${secondValue}-----${fourthValue}`)
         // 按照指定格式拼接字符串
         return `${firstValue}-----${secondValue}-----${fourthValue}`;
-      }).join("\n");
+      }).join("\n")+"\n";
     },
     exportStringToTxt(data, filename) {
       if(!data){
