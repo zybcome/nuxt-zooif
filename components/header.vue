@@ -196,6 +196,10 @@
                 :href="api.ServerDomain+':1008/tool/csvres'"
                 class="dropdown-item"
               >表格去重</a>
+              <a
+                :href="api.ServerDomain+':1008/tool/xlsFormat'"
+                class="dropdown-item"
+              >表格格式化</a>
             </div>
           </li>
           <img

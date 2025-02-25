@@ -13,9 +13,9 @@
         <div class="row d-flex align-items-center justify-content-center">
           <div class="about-content col-lg-12">
             <h1 class="text-white">
-              表格去重
+              表格格式化
             </h1>
-            <p class="text-white link-nav"><a href="/">首页 </a> <span class="lnr lnr-arrow-right"></span> <a href=""> 表格去重</a></p>
+            <p class="text-white link-nav"><a href="/">首页 </a> <span class="lnr lnr-arrow-right"></span> <a href=""> 表格格式化</a></p>
           </div>
         </div>
       </div>
@@ -30,25 +30,21 @@
                 <div>
                   <el-upload
                     action=""
-                    :before-upload="beforeUpload"
                     :on-change="handleChange"
-                    accept=".csv"
+                    accept=".xls"
                   >
-                    <el-button type="primary">点击上传表格</el-button>
+                    <el-button type="primary">上传表格并获取获取格式化后文本</el-button>
                   </el-upload>
                   <el-input
                     type="textarea"
                     :rows="10"
-                    placeholder="请输入ID"
-                    v-model="hhId">
-                  </el-input>
-                  <el-button type="primary" @click="clickRes">立即获取ID</el-button>
-                  <el-input
-                    type="textarea"
-                    :rows="10"
-                    placeholder="去重结果"
+                    placeholder="获取格式化后文本"
                     v-model="resData">
                   </el-input>
+                  <el-input placeholder="请输入内容" v-model="outputName">
+                    <template slot="prepend">TXT文件名</template>
+                  </el-input>
+                  <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出</el-button>
                 </div>
               </ul>
             </div>
@@ -80,24 +76,13 @@ export default {
       tableData:[],
       hhId:"",
       hhIdData:"",
-      resData:""
+      resData:"",
+      outputName:this.formatDate(new Date())
     };
   },
-
   computed: {},
-
-  mounted: function () {
-  },
-
+  mounted: function () {},
   methods: {
-
-    beforeUpload(file) {
-      const isCSV = file.type === 'text/csv';
-      if (!isCSV) {
-        Message.error('只能上传CSV文件');
-      }
-      return isCSV;
-    },
     handleChange(file, fileList) {
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -105,30 +90,47 @@ export default {
         const { data, meta } = Papa.parse(csvData, {
           header: true,
           skipEmptyLines: true,
+          quoteChar: "·",
         });
         this.tableData = data;
-        console.log(this.tableData)
+        this.resData = this.formatXls(this.tableData)
       };
       reader.readAsText(file.raw);
     },
-    clickRes(){
-      this.resData = []
-      const seen = new Set();
-      this.hhIdData = this.hhId.split('\n');
-      console.log(this.hhIdData)
-      this.hhIdData.map(hhId=>{
-        this.tableData.map(spId=>{
-          if(spId["SKUBM"].indexOf(hhId)!=-1){
-            if (seen.has(spId["ID"].split('\t')[0])) {
-              return false;
-            }
-            seen.add(spId["ID"].split('\t')[0]);
-          }
-        })
-      })
-      console.log(seen)
-      this.resData = seen.join('\n')+'\n'+seen.join(',')
-      console.log(this.resData)
+    // 格式化表格内容转化为字符串
+    formatXls(data){
+      return data.map(item => {
+        // 获取对象的所有键名
+        const keys = Object.keys(item);
+        // 动态获取第一个、第二个和第四个属性的值
+        const firstValue = item[keys[4]];
+        const secondValue = item[keys[3]];
+        const fourthValue = item[keys[1]];
+        console.log(`${firstValue}-----${secondValue}-----${fourthValue}`)
+        // 按照指定格式拼接字符串
+        return `${firstValue}-----${secondValue}-----${fourthValue}`;
+      }).join("\n");
+    },
+    exportStringToTxt(data, filename) {
+      if(!data){
+        Message.error('格式化后文本不能为空！');
+        return;
+      }
+      // 创建一个 Blob 对象，指定类型为 text/plain
+      const blob = new Blob([data], { type: "text/plain;charset=utf-8" });
+
+      // 创建一个下载链接
+      const url = URL.createObjectURL(blob);
+
+      // 创建一个 a 标签并模拟点击
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename || this.formatDate(new Date()); // 设置下载文件的名称
+      a.download+='.txt';
+      a.click();
+
+      // 释放 URL 对象
+      URL.revokeObjectURL(url);
     }
   },
 };
