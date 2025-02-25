@@ -104,6 +104,7 @@ export default {
           skipEmptyLines: true,
           quoteChar: "·!`",
         });
+        console.log(data)
         this.tableData = data;
         this.resData += this.formatXls(this.tableData)
         this.getResDataNum()
@@ -120,7 +121,7 @@ export default {
         const secondValue = item[keys[3]];
         const fourthValue = item[keys[1]];
         // 按照指定格式拼接字符串
-        return `${firstValue}-----${secondValue}-----${fourthValue}`;
+        return `${firstValue.trim()}-----${secondValue.trim()}-----${fourthValue.trim()}`;
       }).join("\n")+"\n";
     },
     exportStringToTxt(data, filename) {
