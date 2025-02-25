@@ -102,7 +102,7 @@ export default {
         const { data, meta } = Papa.parse(csvData, {
           header: true,
           skipEmptyLines: true,
-          quoteChar: "···",
+          quoteChar: "·!`",
         });
         this.tableData = data;
         this.resData += this.formatXls(this.tableData)
