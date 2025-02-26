@@ -49,6 +49,7 @@
                     <template slot="prepend">TXT文件名</template>
                   </el-input>
                   <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
+                  <el-button type="primary" @click="openDialogBtn()">过图{{resDataNum||""}}</el-button>
                 </div>
               </ul>
             </div>
@@ -56,6 +57,24 @@
         </section>
       </div>
     </div>
+
+    <el-dialog title="图片列表" custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
+      <div style="height: calc(100vh - 109px);overflow-y: auto;padding:20px">
+        <el-row :gutter="20" style="margin-bottom: 30px">
+          <el-col :span="3" v-for="(item,index) in resDataImgList" :key="item[1]" style="margin-bottom: 20px">
+            <div style="text-align: center">
+              <el-image fit="cover" :src="item[1]" lazy>
+                <div slot="placeholder" class="image-slot">
+                  加载中<span class="dot">...</span>
+                </div>
+              </el-image>
+              <el-button style="width: 100%" size="mini" type="danger" plain @click="delImg(index)">删除</el-button>
+            </div>
+          </el-col>
+        </el-row>
+        <el-button style="position: fixed;bottom: 10px;left: 50%;transform: translateX(-50%)" type="primary" @click="exportImageList()">导出结果({{resDataImgList.length}})</el-button>
+      </div>
+    </el-dialog>
     <!-- <v-footer></v-footer> -->
   </div>
 </template>
@@ -63,12 +82,11 @@
 <script>
 import api from "~/plugins/api";
 // import VFooter from "~/components/footer";
-import { Message, Upload, Table } from "element-ui";
+import {Message, MessageBox, Upload} from "element-ui";
 import Papa from 'papaparse';
 export default {
   components: {
-    'el-upload': Upload,
-    'el-table': Table
+    'el-upload': Upload
   },
   head() {
     return {
@@ -82,7 +100,10 @@ export default {
       hhIdData:"",
       resData:"",
       outputName:this.formatDate(new Date()),
-      resDataNum:0
+      resDataNum:0,
+      openDialog:false,
+      resDataImgListMate:[],
+      resDataImgList:[],
     };
   },
   computed: {},
@@ -90,8 +111,25 @@ export default {
 
   },
   methods: {
+    openDialogBtn(){
+      if(this.resData){
+        this.resDataImgList = []
+        this.resDataImgListMate = this.resData.split('\n')
+        this.resDataImgListMate.map(res=>{
+          this.resDataImgList.push(res.split('-----'))
+        })
+        this.openDialog = true
+      }else{
+        this.resDataImgListMate = []
+        this.resDataImgList = []
+        Message.error('格式化后文本不能为空！');
+      }
+    },
+    delImg(index){
+      this.resDataImgList.splice(index, 1); // 从数组中移除指定索引的元素
+    },
     getResDataNum(){
-      this.resDataNum = this.resData?this.resData.split('\n').filter(line => line.trim() !== '').length+"个":""
+      this.resDataNum = this.resData?this.resData.split('\n').length:""
     },
     handleChange(file, fileList) {
       this.outputName = this.formatDate(new Date())
@@ -104,9 +142,12 @@ export default {
           skipEmptyLines: true,
           quoteChar: "·!`",
         });
-        console.log(data)
         this.tableData = data;
-        this.resData += this.formatXls(this.tableData)
+        if(this.resData){
+          this.resData += "\n"+this.formatXls(this.tableData)
+        }else{
+          this.resData = this.formatXls(this.tableData)
+        }
         this.getResDataNum()
       };
       reader.readAsText(file.raw);
@@ -122,7 +163,24 @@ export default {
         const fourthValue = item[keys[1]];
         // 按照指定格式拼接字符串
         return `${firstValue.trim()}-----${secondValue.trim()}-----${fourthValue.trim()}`;
-      }).join("\n")+"\n";
+      }).join("\n");
+    },
+    exportImageList(){
+      let that = this;
+      let exportImageTxt = ""
+      that.resDataImgList.map(item=>{
+        if(exportImageTxt){
+          exportImageTxt += "\n"+item[0]+"-----"+item[1]+"-----"+item[2]
+        }else{
+          exportImageTxt += item[0]+"-----"+item[1]+"-----"+item[2]
+        }
+      })
+      MessageBox.prompt('请输入TXT文件名称', '导出过图之后TXT', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        that.exportStringToTxt(exportImageTxt,value)
+      });
     },
     exportStringToTxt(data, filename) {
       if(!data){
@@ -150,4 +208,9 @@ export default {
 </script>
 <style scoped>
 @import "../../static/css/whois.css";
+</style>
+
+<style>
+.dialogClass{background: #000 !important;}
+.dialogClass .el-dialog__title{color: #fff;}
 </style>

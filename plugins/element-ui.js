@@ -23,12 +23,15 @@ import {
   Option,
   Tag,
   Table,
-  TableColumn
+  TableColumn,
+  Image,
+  Row,
+  Col
 } from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 
 const components = [
-    Message, Notification,Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog,Tooltip,Select,Option,Tag,Table,TableColumn
+    Message, Notification,Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog,Tooltip,Select,Option,Tag,Table,TableColumn,Image, Row, Col
 ];
 
 const Element = {
