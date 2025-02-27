@@ -45,7 +45,7 @@
                     @input="getResDataNum()"
                     v-model="resData">
                   </el-input>
-                  <el-input placeholder="请输入内容" v-model="outputName">
+                  <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName">
                     <template slot="prepend">TXT文件名</template>
                   </el-input>
                   <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
@@ -68,7 +68,7 @@
                   加载中<span class="dot">...</span>
                 </div>
               </el-image>
-              <el-button style="width: 100%" size="mini" type="danger" plain @click="delImg(index)">删除</el-button>
+              <el-button style="width: 100%" size="mini" type="danger" plain @click="delImg(index)">删除({{index+1}})</el-button>
             </div>
           </el-col>
         </el-row>
@@ -99,7 +99,7 @@ export default {
       hhId:"",
       hhIdData:"",
       resData:"",
-      outputName:this.formatDate(new Date()),
+      outputName:"",
       resDataNum:0,
       openDialog:false,
       resDataImgListMate:[],
@@ -107,9 +107,7 @@ export default {
     };
   },
   computed: {},
-  mounted: function () {
-
-  },
+  mounted: function () {},
   methods: {
     openDialogBtn(){
       if(this.resData){
@@ -118,7 +116,7 @@ export default {
         this.resDataImgListMate.map(res=>{
           this.resDataImgList.push(res.split('-----'))
         })
-        this.openDialog = true
+        if(this.outputName) {this.openDialog = true}else Message.error('请输入文件名称！');
       }else{
         this.resDataImgListMate = []
         this.resDataImgList = []
@@ -132,7 +130,7 @@ export default {
       this.resDataNum = this.resData?this.resData.split('\n').length:""
     },
     handleChange(file, fileList) {
-      this.outputName = this.formatDate(new Date())
+      // this.outputName = this.formatDate(new Date())
       const reader = new FileReader();
       this.resData = ""
       reader.onload = (event) => {
@@ -175,18 +173,19 @@ export default {
           exportImageTxt += item[0]+"-----"+item[1]+"-----"+item[2]
         }
       })
-      MessageBox.prompt('请输入TXT文件名称', '导出过图之后TXT', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-      }).then(({ value }) => {
-        that.exportStringToTxt(exportImageTxt,value)
-      });
+      that.exportStringToTxt(exportImageTxt,that.outputName)
+      // MessageBox.prompt('请输入TXT文件名称', '导出过图之后TXT', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      // }).then(({ value }) => {
+      // });
     },
     exportStringToTxt(data, filename) {
       if(!data){
         Message.error('格式化后文本不能为空！');
         return;
       }
+      if(!filename) return Message.error('请输入文件名称！');
       // 创建一个 Blob 对象，指定类型为 text/plain
       const blob = new Blob([data], { type: "text/plain;charset=utf-8" });
 
