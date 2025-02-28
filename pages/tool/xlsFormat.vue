@@ -61,7 +61,7 @@
     <el-dialog title="图片列表" custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
       <div style="height: calc(100vh - 109px);overflow-y: auto;padding:20px">
         <el-row :gutter="20" style="margin-bottom: 30px">
-          <el-col :span="4" v-for="(item,index) in resDataImgList" :key="item[1]" style="margin-bottom: 20px">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="(item,index) in resDataImgList" :key="index" style="margin-bottom: 20px">
             <div style="text-align: center">
               <el-image fit="cover" :src="item[1]" lazy>
                 <div slot="placeholder" class="image-slot">
