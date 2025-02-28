@@ -27,30 +27,44 @@
           <div class="container">
             <div style="text-align:center">
               <ul style="min-height:200px;">
-                <div>
-                  <el-upload
-                    ref="upload"
-                    action=""
-                    :on-change="handleChange"
-                    :show-file-list="false"
-                    accept=".xls,.xlsx"
-                    multiple
-                  >
-                    <el-button type="primary">上传表格并获取格式化后文本</el-button>
-                  </el-upload>
-                  <el-input
-                    type="textarea"
-                    :rows="10"
-                    placeholder="获取格式化后文本"
-                    @input="getResDataNum()"
-                    v-model="resData">
-                  </el-input>
-                  <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName">
-                    <template slot="prepend">TXT文件名</template>
-                  </el-input>
-                  <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
-                  <el-button type="primary" @click="openDialogBtn()">过图{{resDataNum||""}}</el-button>
-                </div>
+                <el-row :gutter="20">
+                  <el-col :sm="24" :md="12" style="margin-bottom: 30px">
+                    <el-upload
+                      ref="upload"
+                      action=""
+                      :on-change="handleChange"
+                      :show-file-list="false"
+                      accept=".xls,.xlsx"
+                      multiple
+                    >
+                      <el-button type="primary">上传表格并获取格式化后文本</el-button>
+                    </el-upload>
+                  </el-col>
+                  <el-col :sm="24" :md="12" style="margin-bottom: 30px">
+                    <el-upload
+                      ref="upload"
+                      action=""
+                      :on-change="handleChangeTxt"
+                      :show-file-list="false"
+                      accept=".txt"
+                      multiple
+                    >
+                      <el-button type="primary">上传格式化后文本</el-button>
+                    </el-upload>
+                  </el-col>
+                </el-row>
+                <el-input
+                  type="textarea"
+                  :rows="10"
+                  placeholder="获取格式化后文本"
+                  @input="getResDataNum()"
+                  v-model="resData">
+                </el-input>
+                <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName">
+                  <template slot="prepend">TXT文件名</template>
+                </el-input>
+                <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
+                <el-button type="primary" @click="openDialogBtn()">过图{{resDataNum||""}}</el-button>
               </ul>
             </div>
           </div>
@@ -131,6 +145,7 @@ export default {
     },
     handleChange(file, fileList) {
       // this.outputName = this.formatDate(new Date())
+      this.outputName = file.name.split('.')[0]
       const reader = new FileReader();
       this.resData = ""
       reader.onload = (event) => {
@@ -146,6 +161,17 @@ export default {
         }else{
           this.resData = this.formatXls(this.tableData)
         }
+        this.getResDataNum()
+      };
+      reader.readAsText(file.raw);
+    },
+    handleChangeTxt(file, fileList) {
+      // this.outputName = this.formatDate(new Date())
+      this.outputName = file.name.split('.')[0]
+      const reader = new FileReader();
+      this.resData = ""
+      reader.onload = (event) => {
+        this.resData = event.target.result;
         this.getResDataNum()
       };
       reader.readAsText(file.raw);
