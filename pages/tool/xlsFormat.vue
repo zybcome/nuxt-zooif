@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <el-dialog title="图片列表" custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
+    <el-dialog :title="'图片列表'+resDataImgList.length+'/'+resDataImgListMate.length " custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
       <div style="height: calc(100vh - 109px);overflow-y: auto;padding:20px">
         <el-row :gutter="20" style="margin-bottom: 30px">
           <el-col :xs="24" :sm="12" :md="6" :lg="4" :xl="4" v-for="(item,index) in resDataImgList" :key="index" style="margin-bottom: 20px">
@@ -86,7 +86,13 @@
             </div>
           </el-col>
         </el-row>
-        <el-button style="position: fixed;bottom: 10px;left: 50%;transform: translateX(-50%)" type="primary" @click="exportImageList()">导出结果({{resDataImgList.length}})</el-button>
+        <div style="position: fixed;bottom: 10px;left: 50%;transform: translateX(-50%);display: flex; align-items: center; gap: 10px;">
+          <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName"
+                    style="flex: 1;width: 400px;">
+            <template slot="prepend">TXT文件名</template>
+          </el-input>
+          <el-button type="primary" @click="exportImageList()">导出({{resDataImgList.length}})</el-button>
+        </div>
       </div>
     </el-dialog>
     <!-- <v-footer></v-footer> -->
