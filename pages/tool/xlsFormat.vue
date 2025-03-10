@@ -82,6 +82,7 @@
                   加载中<span class="dot">...</span>
                 </div>
               </el-image>
+              <span class="goods_title" :title="item[2]">{{item[2]}}</span>
               <el-button style="width: 100%" size="mini" type="danger" plain @click="delImg(index)">删除({{index+1}})</el-button>
             </div>
           </el-col>
@@ -244,4 +245,10 @@ export default {
 <style>
 .dialogClass{background: #000 !important;}
 .dialogClass .el-dialog__title{color: #fff;}
+.goods_title{
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 限制在一行内显示文本的行数 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>
