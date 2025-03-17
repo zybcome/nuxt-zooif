@@ -60,11 +60,11 @@
                   @input="getResDataNum()"
                   v-model="resData">
                 </el-input>
-                <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName">
+                <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName" style="margin-bottom: 10px">
                   <template slot="prepend">TXT文件名</template>
                 </el-input>
                 <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
-                <el-button type="primary" @click="openDialogBtn()">过图{{resDataNum||""}}</el-button>
+                <el-button type="danger" @click="openDialogBtn()">过图{{resDataNum||""}}</el-button>
               </ul>
             </div>
           </div>
@@ -168,6 +168,7 @@ export default {
         }else{
           this.resData = this.formatXls(this.tableData)
         }
+        this.resData = this.resData.replace(/\|/g, '').replace(/"/g, '')
         this.getResDataNum()
       };
       reader.readAsText(file.raw);
@@ -179,6 +180,7 @@ export default {
       this.resData = ""
       reader.onload = (event) => {
         this.resData = event.target.result;
+        this.resData = this.resData.replace(/\|/g, '').replace(/"/g, '')
         this.getResDataNum()
       };
       reader.readAsText(file.raw);
