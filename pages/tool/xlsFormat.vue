@@ -64,7 +64,8 @@
                   <template slot="prepend">TXT文件名</template>
                 </el-input>
                 <el-button type="primary" @click="exportStringToTxt(resData,outputName)">导出{{resDataNum||""}}</el-button>
-                <el-button type="danger" @click="openDialogBtn()">过图{{resDataNum||""}}</el-button>
+                <el-button type="danger" @click="openDialogBtn()">过图{{resDataNum||""}}（黑色居多）</el-button>
+                <el-button type="danger" @click="openDialogBtnWhite()">过图{{resDataNum||""}}（白色居多）</el-button>
               </ul>
             </div>
           </div>
@@ -72,9 +73,11 @@
       </div>
     </div>
 
-    <el-dialog :title="'图片列表'+resDataImgList.length+'/'+resDataImgListMate.length " custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
+    <el-dialog :title="'图片列表'+(resDataImgList.length+resDataImgListWhite.length)+'/'+resDataImgListMate.length " custom-class="dialogClass" :visible.sync="openDialog" :fullscreen="true" :center="true">
       <div style="height: calc(100vh - 109px);overflow-y: auto;padding:20px">
-        <el-row :gutter="20" style="margin-bottom: 30px">
+
+<!--        黑色-->
+        <el-row v-if="isBlackMaster" :gutter="20" style="margin-bottom: 30px">
           <el-col :xs="24" :sm="12" :md="6" :lg="4" :xl="4" v-for="(item,index) in resDataImgList" :key="index" style="margin-bottom: 20px">
             <div style="text-align: center">
               <el-image fit="cover" :src="item[1]" lazy>
@@ -83,16 +86,57 @@
                 </div>
               </el-image>
               <span class="goods_title" :title="item[2]">{{item[2]}}</span>
+              <el-button style="width: 100%" size="mini" type="success" plain @click="thisWhite(index)">这是白色({{index+1}})</el-button>
+              <br>
               <el-button style="width: 100%" size="mini" type="danger" plain @click="delImg(index)">删除({{index+1}})</el-button>
             </div>
           </el-col>
         </el-row>
-        <div style="position: fixed;bottom: 10px;left: 50%;transform: translateX(-50%);display: flex; align-items: center; gap: 10px;">
-          <el-input placeholder="请输入文件名称：名称-操作人 例如：Zoo If-Trump" v-model="outputName"
-                    style="flex: 1;width: 400px;">
-            <template slot="prepend">TXT文件名</template>
+
+<!--        白色-->
+        <el-row :gutter="20" style="margin-bottom: 30px">
+          <el-col :xs="24" :sm="12" :md="6" :lg="4" :xl="4" v-for="(item,index) in resDataImgListWhite" :key="index" style="margin-bottom: 20px">
+            <div style="text-align: center">
+              <el-image fit="cover" :src="item[1]" lazy>
+                <div slot="placeholder" class="image-slot">
+                  加载中<span class="dot">...</span>
+                </div>
+              </el-image>
+              <span class="goods_title" :title="item[2]">{{item[2]}}</span>
+              <el-button style="width: 100%" size="mini" type="warning" plain @click="thisBlack(index)">这是黑色({{index+1}})</el-button>
+              <br>
+              <el-button style="width: 100%" size="mini" type="danger" plain @click="delImgWhite(index)">删除({{index+1}})</el-button>
+            </div>
+          </el-col>
+        </el-row>
+
+<!--        黑色-->
+        <el-row v-if="!isBlackMaster" :gutter="20" style="margin-bottom: 30px">
+          <el-col :xs="24" :sm="12" :md="6" :lg="4" :xl="4" v-for="(item,index) in resDataImgList" :key="index" style="margin-bottom: 20px">
+            <div style="text-align: center">
+              <el-image fit="cover" :src="item[1]" lazy>
+                <div slot="placeholder" class="image-slot">
+                  加载中<span class="dot">...</span>
+                </div>
+              </el-image>
+              <span class="goods_title" :title="item[2]">{{item[2]}}</span>
+              <el-button style="width: 100%" size="mini" type="success" plain @click="thisWhite(index)">这是白色({{index+1}})</el-button>
+              <br>
+              <el-button style="width: 100%" size="mini" type="danger" plain @click="delImg(index)">删除({{index+1}})</el-button>
+            </div>
+          </el-col>
+        </el-row>
+
+        <div style="position: fixed;bottom: 10px;left: 50%;transform: translateX(-50%);display: flex; align-items: center;flex-direction: column; gap: 10px;">
+          <el-input placeholder="请输入文件名称：名称-操作人-黑色 例如：Zoo If-Trump-黑色" v-model="outputName"
+                    style="flex: 1;width: 700px">
+            <template slot="prepend">黑色TXT文件名</template>
           </el-input>
-          <el-button type="primary" @click="exportImageList()">导出({{resDataImgList.length}})</el-button>
+          <el-input placeholder="请输入文件名称：名称-操作人-白色 例如：Zoo If-Trump-白色" v-model="outputNameWhite"
+                    style="flex: 1;width: 700px">
+            <template slot="prepend">白色TXT文件名</template>
+          </el-input>
+          <el-button type="primary" @click="exportImageList()">导出【黑色({{resDataImgList.length}})、白色({{resDataImgListWhite.length}})】</el-button>
         </div>
       </div>
     </el-dialog>
@@ -121,31 +165,76 @@ export default {
       hhIdData:"",
       resData:"",
       outputName:"",
+      outputNameWhite:"",
       resDataNum:0,
       openDialog:false,
       resDataImgListMate:[],
       resDataImgList:[],
+      resDataImgListWhite:[],
+      isBlackMaster:true
     };
   },
   computed: {},
   mounted: function () {},
   methods: {
+    // 黑色居多
     openDialogBtn(){
+      this.resDataImgListMate = []
+      this.resDataImgList = []
+      this.resDataImgListWhite = []
+      this.isBlackMaster = true
       if(this.resData){
-        this.resDataImgList = []
         this.resDataImgListMate = this.resData.split('\n')
         this.resDataImgListMate.map(res=>{
           this.resDataImgList.push(res.split('-----'))
         })
-        if(this.outputName) {this.openDialog = true}else Message.error('请输入文件名称！');
+        if(this.outputName) {this.openDialog = true}else return Message.error('请输入文件名称！');
+        this.outputNameWhite = this.outputName
+        if(this.outputName.indexOf("黑色")===-1 && this.outputName.indexOf("白色")===-1){
+          this.outputName += "-黑色"
+          this.outputNameWhite += "-白色"
+        }
       }else{
-        this.resDataImgListMate = []
-        this.resDataImgList = []
         Message.error('格式化后文本不能为空！');
       }
     },
+    openDialogBtnWhite(){
+      this.resDataImgListMate = []
+      this.resDataImgListWhite = []
+      this.resDataImgList = []
+      this.isBlackMaster = false
+      if(this.resData){
+        this.resDataImgListMate = this.resData.split('\n')
+        this.resDataImgListMate.map(res=>{
+          this.resDataImgListWhite.push(res.split('-----'))
+        })
+        if(this.outputName) {this.openDialog = true}else return Message.error('请输入文件名称！');
+        this.outputNameWhite = this.outputName
+        if(this.outputName.indexOf("黑色")===-1 && this.outputName.indexOf("白色")===-1){
+          this.outputName += "-黑色"
+          this.outputNameWhite += "-白色"
+        }
+      }else{
+        Message.error('格式化后文本不能为空！');
+      }
+    },
+    // 删除黑色
     delImg(index){
-      this.resDataImgList.splice(index, 1); // 从数组中移除指定索引的元素
+      this.resDataImgList.splice(index, 1);
+    },
+    // 设置为白色
+    thisWhite(index){
+      this.resDataImgListWhite.push(this.resDataImgList[index])
+      this.resDataImgList.splice(index, 1);
+    },
+    // 删除白色
+    delImgWhite(index){
+      this.resDataImgListWhite.splice(index, 1);
+    },
+    //设置为黑色
+    thisBlack(index){
+      this.resDataImgList.push(this.resDataImgListWhite[index])
+      this.resDataImgListWhite.splice(index, 1);
     },
     getResDataNum(){
       this.resDataNum = this.resData?this.resData.split('\n').length:""
@@ -200,6 +289,8 @@ export default {
     },
     exportImageList(){
       let that = this;
+      if(that.outputName.indexOf("黑色") == -1) return Message.error('黑色体恤文件名必须包含黑色！');
+      if(that.outputNameWhite.indexOf("白色") == -1) return Message.error('白色体恤文件名必须包含白色！');
       let exportImageTxt = ""
       that.resDataImgList.map(item=>{
         if(exportImageTxt){
@@ -209,6 +300,15 @@ export default {
         }
       })
       that.exportStringToTxt(exportImageTxt,that.outputName)
+      let exportImageTxtWhite = ""
+      that.resDataImgListWhite.map(item=>{
+        if(exportImageTxtWhite){
+          exportImageTxtWhite += "\n"+item[0]+"-----"+item[1]+"-----"+item[2]
+        }else{
+          exportImageTxtWhite += item[0]+"-----"+item[1]+"-----"+item[2]
+        }
+      })
+      that.exportStringToTxt(exportImageTxtWhite,that.outputNameWhite)
       // MessageBox.prompt('请输入TXT文件名称', '导出过图之后TXT', {
       //   confirmButtonText: '确定',
       //   cancelButtonText: '取消',
