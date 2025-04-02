@@ -289,26 +289,30 @@ export default {
     },
     exportImageList(){
       let that = this;
-      if(that.outputName.indexOf("黑色") == -1) return Message.error('黑色体恤文件名必须包含黑色！');
-      if(that.outputNameWhite.indexOf("白色") == -1) return Message.error('白色体恤文件名必须包含白色！');
-      let exportImageTxt = ""
-      that.resDataImgList.map(item=>{
-        if(exportImageTxt){
-          exportImageTxt += "\n"+item[0]+"-----"+item[1]+"-----"+item[2]
-        }else{
-          exportImageTxt += item[0]+"-----"+item[1]+"-----"+item[2]
-        }
-      })
-      that.exportStringToTxt(exportImageTxt,that.outputName)
-      let exportImageTxtWhite = ""
-      that.resDataImgListWhite.map(item=>{
-        if(exportImageTxtWhite){
-          exportImageTxtWhite += "\n"+item[0]+"-----"+item[1]+"-----"+item[2]
-        }else{
-          exportImageTxtWhite += item[0]+"-----"+item[1]+"-----"+item[2]
-        }
-      })
-      that.exportStringToTxt(exportImageTxtWhite,that.outputNameWhite)
+      if(that.resDataImgList.length>0){
+        if(that.outputName.indexOf("黑色") == -1) return Message.error('黑色体恤文件名必须包含黑色！');
+        let exportImageTxt = ""
+        that.resDataImgList.map(item=>{
+          if(exportImageTxt){
+            exportImageTxt += "\n"+item[0]+"-----"+item[1]+"-----"+item[2]
+          }else{
+            exportImageTxt += item[0]+"-----"+item[1]+"-----"+item[2]
+          }
+        })
+        that.exportStringToTxt(exportImageTxt,that.outputName)
+      }
+      if(that.resDataImgListWhite.length>0){
+        if(that.outputNameWhite.indexOf("白色") == -1) return Message.error('白色体恤文件名必须包含白色！');
+        let exportImageTxtWhite = ""
+        that.resDataImgListWhite.map(item=>{
+          if(exportImageTxtWhite){
+            exportImageTxtWhite += "\n"+item[0]+"-----"+item[1]+"-----"+item[2]
+          }else{
+            exportImageTxtWhite += item[0]+"-----"+item[1]+"-----"+item[2]
+          }
+        })
+        that.exportStringToTxt(exportImageTxtWhite,that.outputNameWhite)
+      }
       // MessageBox.prompt('请输入TXT文件名称', '导出过图之后TXT', {
       //   confirmButtonText: '确定',
       //   cancelButtonText: '取消',
