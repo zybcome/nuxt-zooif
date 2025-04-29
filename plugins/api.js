@@ -4,6 +4,8 @@ import {
 } from '@/plugins/axios'
 const admin = "";
 let ServerDomain;
+// let flyBirdApi = "/fbr-api"
+let flyBirdApi = "/fbr-cn" // 测试
 if (process.env.NODE_ENV === 'production') {
   ServerDomain = "http://117.72.77.209"
 } else {
@@ -29,4 +31,5 @@ export default {
   getJokeRandom: data => post(alapi+admin + '/joke/random', {token:"6ANYpr3duQPq0T2H"}),
   getQinghua : data => post(alapi+admin + '/qinghua ', {token:"6ANYpr3duQPq0T2H"}),
   getDog : data => post(alapi+admin + '/dog ', {token:"6ANYpr3duQPq0T2H"}),
+  flyBirdApi : data => post(flyBirdApi, data),
 }

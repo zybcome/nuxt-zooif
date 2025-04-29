@@ -21,7 +21,8 @@ export default {
             { src: '/js/jquery.i18n.properties-min-1.0.9.js', type: "text/javascript" },
             { src: '/js/bootstrap.min.js', type: "text/javascript" },
             // { src: '/js/baidutongji.js', type: "text/javascript" },
-            { src: '/js/crypto-js.js', type: "text/javascript" }
+            // { src: '/js/crypto-js.js', type: "text/javascript" }
+            { src: '/js/md5.js', type: "text/javascript" }
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -112,14 +113,21 @@ export default {
         //         // pathRewrite: { '^/translate': '/' }
         //     }
         // ],
-        // [
-        //     '/translate_a/single',
-        //     {
-        //         target: 'https://translate.googleapis.com',
-        //         // target: 'http://192.168.20.114:8080',
-        //         changeOrigin: true,
-        //         // pathRewrite: { '^/translate': '/' }
-        //     }
-        // ],
+        [
+            '/fbr-api',
+            {
+                target: 'http://173.199.119.6:4396',
+                changeOrigin: true,
+                pathRewrite: { '^/fbr-api': '/api' }
+            }
+        ],
+        [
+            '/fbr-cn',
+            {
+                target: 'http://173.199.119.6:4396',
+                changeOrigin: true,
+                pathRewrite: { '^/fbr-cn': '/api-cn' }
+            }
+        ],
     ]
 }
