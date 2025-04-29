@@ -45,6 +45,7 @@ export default {
         { src: '~/plugins/element-ui', ssr: true },
         // { src: '~/plugins/jsencrypt', ssr: false },
         { src: '~/plugins/route', ssr: false },
+        { src: '~/plugins/xlsx.js', mode: 'client' }
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
