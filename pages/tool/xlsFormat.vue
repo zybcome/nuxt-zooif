@@ -240,6 +240,7 @@ export default {
       this.resDataNum = this.resData?this.resData.split('\n').length:""
     },
     async handleChange(file, fileList) {
+      this.outputName = file.name.split('.')[0]
       const { read, utils } = this.$xlsx;
       const reader = new FileReader();
       let that = this;
