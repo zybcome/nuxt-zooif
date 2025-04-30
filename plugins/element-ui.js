@@ -26,12 +26,13 @@ import {
   TableColumn,
   Image,
   Row,
-  Col
+  Col,
+  Icon
 } from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 
 const components = [
-    Message, Notification,Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog,Tooltip,Select,Option,Tag,Table,TableColumn,Image, Row, Col
+    Message, Notification,Popover,MessageBox,Button,Input,Form,FormItem,Checkbox,Alert,Dialog,Tooltip,Select,Option,Tag,Table,TableColumn,Image, Row, Col, Icon
 ];
 
 const Element = {

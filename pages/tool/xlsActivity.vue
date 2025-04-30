@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import {Message, MessageBox, Upload} from "element-ui";
+import {Message, MessageBox, Upload, Loading, Icon} from "element-ui";
 export default {
   components: {
     'el-upload': Upload
@@ -77,19 +77,27 @@ export default {
   },
   data: function () {
     return {
-      lowPrice:""
+      lowPrice:"",
+      LoadingInstance: null,
     };
   },
   computed: {},
   mounted: function () {},
   methods: {
     handleFileChangeOu(file){
-      this.handleFileChange(file,900)
+      this.LoadingInstance = Loading.service({ text: "正在加载数据，请稍候",customClass:"zIndex9999", background: "rgba(0, 0, 0, 0.5)" })
+      setTimeout(()=>{
+        this.handleFileChange(file,90)
+      },100)
     },
     handleFileChangeCa(file){
-      this.handleFileChange(file,100)
+      this.LoadingInstance = Loading.service({ text: "正在加载数据，请稍候",customClass:"zIndex9999", background: "rgba(0, 0, 0, 0.5)" })
+      setTimeout(()=>{
+        this.handleFileChange(file,100)
+      },100)
     },
     async handleFileChange(file, lowPrice) {
+      let that = this;
       if (process.client) {
         const { read, write, utils } = this.$xlsx;
         const saveAs = this.$saveAs;
@@ -134,11 +142,12 @@ export default {
           }
 
           // 第三步：智能分块逻辑
-          const MAX_ROWS = 1999;
+          const MAX_ROWS = 100000;
           let chunk = [];
           let currentRowCount = 0;
           let pendingGroup = null;
 
+          that.LoadingInstance.close();
           for (const group of groups) {
             const groupRows = group.length;
 
