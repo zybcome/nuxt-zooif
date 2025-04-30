@@ -239,29 +239,77 @@ export default {
     getResDataNum(){
       this.resDataNum = this.resData?this.resData.split('\n').length:""
     },
-    handleChange(file, fileList) {
-      // this.outputName = this.formatDate(new Date())
-      this.outputName = file.name.split('.')[0]
+    async handleChange(file, fileList) {
+      const { read, utils } = this.$xlsx;
       const reader = new FileReader();
-      this.resData = ""
-      reader.onload = (event) => {
-        const csvData = event.target.result;
-        const { data, meta } = Papa.parse(csvData, {
-          header: true,
-          skipEmptyLines: true,
-          quoteChar: "·!`",
-        });
-        this.tableData = data;
-        if(this.resData){
-          this.resData += "\n"+this.formatXls(this.tableData)
-        }else{
-          this.resData = this.formatXls(this.tableData)
+      let that = this;
+      reader.onload = async (e) => {
+        try {
+          // 读取Excel文件
+          const data = new Uint8Array(e.target.result);
+          const workbook = read(data, { type: "array" });
+
+          // 初始化数据存储数组
+          const dataArray = [];
+
+          // 遍历所有工作表
+          workbook.SheetNames.forEach(sheetName => {
+            const worksheet = workbook.Sheets[sheetName];
+
+            // 将工作表转为JSON数组（自动跳过标题行）
+            const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
+
+            // 从第二行开始处理（索引1对应第二行）
+            for (let i = 1; i < jsonData.length; i++) {
+              const row = jsonData[i];
+
+              // 处理每行数据：过滤空值、去除|符号
+              const processedRow = [4, 3, 1]  // 定义目标列索引 [第四列, 第三列, 第一列]
+                .map(colIndex => {
+                  // 获取单元格值并处理
+                  const cell = row[colIndex];
+                  const strValue = cell?.toString()?.trim() || '';
+                  return strValue.replace(/\|/g, ''); // 移除所有|
+                })
+                .join('-----'); // 用指定分隔符连接
+
+              dataArray.push(processedRow);
+            }
+          });
+
+          that.resData = dataArray.join('\n');
+          // 这里可以继续处理dataArray，如展示或保存
+
+        } catch (error) {
+          this.$message.error('文件解析失败，请检查文件格式');
         }
-        this.resData = this.resData.replace(/\|/g, '').replace(/"/g, '')
-        this.getResDataNum()
       };
-      reader.readAsText(file.raw);
+
+      reader.readAsArrayBuffer(file.raw);
     },
+    // handleChange(file, fileList) {
+    //   // this.outputName = this.formatDate(new Date())
+    //   this.outputName = file.name.split('.')[0]
+    //   const reader = new FileReader();
+    //   this.resData = ""
+    //   reader.onload = (event) => {
+    //     const csvData = event.target.result;
+    //     const { data, meta } = Papa.parse(csvData, {
+    //       header: true,
+    //       skipEmptyLines: true,
+    //       quoteChar: "·!`",
+    //     });
+    //     this.tableData = data;
+    //     if(this.resData){
+    //       this.resData += "\n"+this.formatXls(this.tableData)
+    //     }else{
+    //       this.resData = this.formatXls(this.tableData)
+    //     }
+    //     this.resData = this.resData.replace(/\|/g, '').replace(/"/g, '')
+    //     this.getResDataNum()
+    //   };
+    //   reader.readAsText(file.raw);
+    // },
     handleChangeTxt(file, fileList) {
       // this.outputName = this.formatDate(new Date())
       this.outputName = file.name.split('.')[0]
