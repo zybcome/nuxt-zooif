@@ -84,24 +84,36 @@ export default {
   computed: {},
   mounted: function () {},
   methods: {
-    handleFileChangeOu(file){
-      this.LoadingInstance = Loading.service({ text: "正在加载数据，请稍候",customClass:"zIndex9999", background: "rgba(0, 0, 0, 0.5)" })
-      setTimeout(()=>{
-        this.handleFileChange(file,90)
-      },100)
+    handleFileChangeOu(file) {
+      this.LoadingInstance = Loading.service({
+        text: "正在加载数据，请稍候",
+        customClass: "zIndex9999",
+        background: "rgba(0, 0, 0, 0.5)"
+      });
+      setTimeout(() => {
+        this.handleFileChange(file, 88);
+      }, 100);
     },
-    handleFileChangeCa(file){
-      this.LoadingInstance = Loading.service({ text: "正在加载数据，请稍候",customClass:"zIndex9999", background: "rgba(0, 0, 0, 0.5)" })
-      setTimeout(()=>{
-        this.handleFileChange(file,100)
-      },100)
+
+    handleFileChangeCa(file) {
+      this.LoadingInstance = Loading.service({
+        text: "正在加载数据，请稍候",
+        customClass: "zIndex9999",
+        background: "rgba(0, 0, 0, 0.5)"
+      });
+      setTimeout(() => {
+        this.handleFileChange(file, 100);
+      }, 100);
     },
+
     async handleFileChange(file, lowPrice) {
       let that = this;
       if (process.client) {
         const { read, write, utils } = this.$xlsx;
         const saveAs = this.$saveAs;
         const reader = new FileReader();
+        let chunkIndex = 1; // 分块序号计数器
+
         reader.onload = async (e) => {
           // 读取原始数据
           const data = new Uint8Array(e.target.result);
@@ -112,78 +124,85 @@ export default {
           const priceData = utils.sheet_to_json(priceSheet);
           const stockSheet = workbook.Sheets["活动库存"];
 
-          // 第一步：过滤数据并生成分组
+          // 第一步：过滤数据
           const filteredData = priceData.filter(
             row => Number(row["活动申报价格"]) >= lowPrice
           );
+          console.log(filteredData.length)
 
-          // 第二步：构建分组数组
-          const groups = [];
-          let currentGroup = [];
+          // 第二步：构建SPU分组数组
+          const spuGroups = [];
           let currentSpu = null;
+          let currentGroup = [];
 
-          for (const row of filteredData) {
-            if (row["SPU ID"] === currentSpu) {
-              currentGroup.push(row);
-              // 每6个为一组
-              if (currentGroup.length === 6) {
-                groups.push([...currentGroup]);
-                currentGroup = [];
-                currentSpu = null;
-              }
-            } else {
+          // 生成完整的SPU分组（不拆分SPU）
+          filteredData.forEach(row => {
+            if (row["SPU ID"] !== currentSpu) {
               if (currentGroup.length > 0) {
-                // 不完整组留到下次处理
-                groups.push([...currentGroup]);
+                spuGroups.push([...currentGroup]);
               }
               currentGroup = [row];
               currentSpu = row["SPU ID"];
+            } else {
+              currentGroup.push(row);
             }
-          }
+          });
+          console.log(currentGroup)
+          if (currentGroup.length > 0) spuGroups.push(currentGroup);
 
           // 第三步：智能分块逻辑
-          const MAX_ROWS = 100000;
-          let chunk = [];
-          let currentRowCount = 0;
-          let pendingGroup = null;
+          const MAX_ROWS = 2000;
+          let chunks = [];
+          let currentChunk = [];
+          let currentChunkRowCount = 0;
+          let currentChunkRowCountTest = 0;
+
+          console.log(spuGroups)
+          spuGroups.forEach((group, index) => {
+            const groupSize = group.length;
+
+            // // 情况1：当前组无法放入当前块
+            // if (currentChunkRowCount + groupSize > MAX_ROWS) {
+            //   // 如果当前块已有数据，先导出
+            //   if (currentChunk.length > 0) {
+            //     chunks.push([...currentChunk]);
+            //     currentChunk = [];
+            //     currentChunkRowCount = 0;
+            //   }
+            // }
+
+            // 情况2：可以放入当前块
+            currentChunk.push(...group);
+            currentChunkRowCount += groupSize;
+            currentChunkRowCountTest++
+            console.log(currentChunkRowCountTest)
+            console.log(currentChunkRowCount)
+            // 检查是否到达分块阈值
+            if (currentChunkRowCountTest >= MAX_ROWS) {
+              chunks.push([...currentChunk]);
+              console.log("分块", chunks.length);
+              this.exportChunk(currentChunk, stockSheet, utils, write, saveAs, chunkIndex++);
+              currentChunk = [];
+              currentChunkRowCount = 0;
+              currentChunkRowCountTest = 0;
+            }
+          });
+
+          // 处理最后未导出的块
+          if (currentChunk.length > 0) {
+            this.exportChunk(currentChunk, stockSheet, utils, write, saveAs, chunkIndex);
+          }
 
           that.LoadingInstance.close();
-          for (const group of groups) {
-            const groupRows = group.length;
-
-            // 检查当前组是否能放入当前块
-            if (currentRowCount + groupRows > MAX_ROWS) {
-              // 导出当前块并重置
-              if (chunk.length > 0) {
-                this.exportChunk(chunk, stockSheet, utils, write, saveAs);
-              }
-              chunk = [];
-              currentRowCount = 0;
-            }
-
-            // 添加完整组到当前块
-            if (groupRows === 6) {
-              chunk.push(...group);
-              currentRowCount += groupRows;
-            } else {
-              // 不完整组暂存到下一个块
-              pendingGroup = group;
-            }
-          }
-
-          // 处理最后一个块
-          if (chunk.length > 0) {
-            this.exportChunk(chunk, stockSheet, utils, write, saveAs);
-          }
         };
 
         reader.readAsArrayBuffer(file.raw);
       }
     },
 
-    // 分块导出方法
-    exportChunk(chunkData, stockSheet, utils, write, saveAs) {
-      const chunkNumber = Date.now(); // 使用时间戳避免重复
+    // 分块导出方法（优化版）
+    exportChunk(chunkData, stockSheet, utils, write, saveAs, chunkIndex) {
+      const timestamp = Date.now();
 
       // 创建新工作簿
       const newWB = utils.book_new();
@@ -192,18 +211,18 @@ export default {
       const newPriceSheet = utils.json_to_sheet(chunkData);
       utils.book_append_sheet(newWB, newPriceSheet, "活动申报价格");
 
-      // 添加库存表（深度克隆）
-      const stockClone = JSON.parse(JSON.stringify(stockSheet));
+      // 添加库存表（结构化克隆）
+      const stockClone = structuredClone(stockSheet);
       utils.book_append_sheet(newWB, stockClone, "活动库存");
 
       // 生成文件
       const wbout = write(newWB, { bookType: "xlsx", type: "array" });
       saveAs(
         new Blob([wbout], { type: "application/octet-stream" }),
-        `分块文件_${chunkNumber}.xlsx`
+        `分块文件_${timestamp}_${chunkIndex}.xlsx` // 带有序号的文件名
       );
     }
-  },
+  }
 };
 </script>
 <style scoped>
